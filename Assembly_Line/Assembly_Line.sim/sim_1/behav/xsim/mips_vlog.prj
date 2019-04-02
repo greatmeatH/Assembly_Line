@@ -1,0 +1,14 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  \
+"../../../../Assembly_Line.srcs/sources_1/new/IF_ID.v" \
+"../../../../Assembly_Line.srcs/sources_1/new/alu.v" \
+"../../../../Assembly_Line.srcs/sources_1/new/im.v" \
+"../../../../Assembly_Line.srcs/sources_1/new/mux.v" \
+"../../../../Assembly_Line.srcs/sources_1/new/pc.v" \
+"../../../../Assembly_Line.srcs/sources_1/new/mips.v" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort
