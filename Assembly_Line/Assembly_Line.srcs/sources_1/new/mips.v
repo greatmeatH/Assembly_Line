@@ -16,9 +16,41 @@ module mips(clk,rst);
     //**********************decode wire**********************//
     wire [31:0]PCPlus4D;
     wire [31:0]InstrD;
+    wire [5:0]RsD;
+    wire [5:0]RtD;
+    wire [5:0]RdD;
+    wire RegWriteD;
+    wire MemtoRegD;
+    wire MemWriteD;
+    wire [2:0]ALUControlD;
+    wire ALUSrcD;
+    wire RegDstD;
+    wire BranchD;
+    wire [31:0]RD1;
+    wire [31:0]RD2;
+    wire [31:0]SignImmD;
+        
+    assign RsD=InstrD[25:21];
+    assign RtD=InstrD[20:16];
+    assign RdD=InstrD[15:11];
     //**********************decode wire**********************//
     
-    //**********************execute wire*********************//    
+    //**********************execute wire*********************//
+    wire [5:0]RsE;
+    wire [5:0]RtE;
+    wire [5:0]RdE;
+    wire RegWriteE;
+    wire MemtoRegE;
+    wire MemWriteE;
+    wire [2:0] ALUControlE;
+    wire ALUSrcE;
+    wire RegDstE;
+    wire BranchE;
+    wire [31:0] RD1E;
+    wire [31:0] RD2E;
+    wire [31:0] SignImmE;
+    wire [31:0] PCPlus4E;
+        
     //**********************execute wire*********************//
     
     //**********************memory wire**********************//
@@ -27,6 +59,9 @@ module mips(clk,rst);
     //**********************memory wire**********************//
     
     //*********************writeback wire********************//
+    wire [4:0]WriteRegW;
+    wire [31:0]ResultW;
+    wire RegWriteW;
     //*********************writeback wire********************//
 
     
@@ -43,7 +78,14 @@ module mips(clk,rst);
     //*********************fetch module**********************//
     
     //*********************decode module*********************//
+    gpr U_gpr(clk,RsD,RtD,WriteRegW,RegWriteW,ResultW,RD1,RD2);
     
+    ext U_ext(InstrD[15:0],SignImmD);
+    
+    controller U_controller(InstrD[31:26],InstrD[5:0],RegWriteD,MemtoRegD,MemWriteD,ALUControlD,ALUSrcD,RegDstD,BranchD);
+    
+    ID_IE U_ID_IE(clk,rst,RegWriteD,MemtoRegD,MemWriteD,ALUControlD,ALUSrcD,RegDstD,BranchD,RD1,RD2,RsD,RtD,RdD,
+    SignImmD,PCPlus4D,RegWriteE,MemtoRegE,MemWriteE,ALUControlE,ALUSrcE,RegDstE,BranchE,RD1E,RD2E,RsE,RtE,RdE,SignImmE,PCPlus4E);
     //*********************decode module*********************//
     
     //*********************execute module********************//    
@@ -59,9 +101,9 @@ module mips(clk,rst);
     
     //module dm_4k(addr,din,we,clk,dout);
     
-    //module gpr(clk,rs,rt,rd,dst,RegWr,RegDst,in_data,out_rs,out_rt);
+    //module gpr(clk,rs,rt,dst,RegWr,in_data,out_rs,out_rt);
     
-    //module controller(op,funct,beqout,RegDst,ExtOp,ALUSrc,ALUctr,RegWr,DMWr,GPRSrc,NPCSel);
+    //module controller(op,funct,RegWrite,MemtoReg,MemWrite,ALUControl,ALUSrc,RegDst,Branch);
     
     //module pc(clk,rst,npc,pc);
     
@@ -71,8 +113,12 @@ module mips(clk,rst);
     
     //module alu(in_data1,in_data2,ALUctr,out_data,beqout);
     
-    //module ext(ExtOp,in_data,out_data);
+    //module ext(in_data,out_data);
     
     //module IF_ID(clk,rst,if_pc,if_instr,id_pc,id_instr);
+    
+    //module ID_IE(clk,rst,id_RegWrite,id_MemtoReg,id_MemWrite,id_ALUControl,id_ALUSrc,id_RegDst,id_Branch,
+    //id_RD1,id_RD2,id_Rs,id_Rt,id_Rd,id_SignImm,id_PCPlus4,ie_RegWrite,ie_MemtoReg,ie_MemWrite,
+    //ie_ALUControl,ie_ALUSrc,ie_RegDst,ie_Branch,ie_RD1,ie_RD2,ie_Rs,ie_Rt,ie_Rd,ie_SignImm,ie_PCPlus4);
     
 endmodule
