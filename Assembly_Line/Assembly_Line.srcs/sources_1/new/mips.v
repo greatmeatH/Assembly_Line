@@ -7,28 +7,28 @@ module mips(clk,rst);
     //**********************global wire**********************//
     
     //**********************fetch wire***********************//
-    wire [31:0]PCPlus4F;
-    wire [31:0]InstrF;
-    wire [31:0]PCF;
-    wire [31:0]nPCF;
+    wire [31:0] PCPlus4F;
+    wire [31:0] InstrF;
+    wire [31:0] PCF;
+    wire [31:0] nPCF;
     //**********************fetch wire***********************//
     
     //**********************decode wire**********************//
-    wire [31:0]PCPlus4D;
-    wire [31:0]InstrD;
-    wire [5:0]RsD;
-    wire [5:0]RtD;
-    wire [5:0]RdD;
+    wire [31:0] PCPlus4D;
+    wire [31:0] InstrD;
+    wire [5:0] RsD;
+    wire [5:0] RtD;
+    wire [5:0] RdD;
     wire RegWriteD;
     wire MemtoRegD;
     wire MemWriteD;
-    wire [2:0]ALUControlD;
+    wire [2:0] ALUControlD;
     wire ALUSrcD;
     wire RegDstD;
     wire BranchD;
-    wire [31:0]RD1;
-    wire [31:0]RD2;
-    wire [31:0]SignImmD;
+    wire [31:0] RD1;
+    wire [31:0] RD2;
+    wire [31:0] SignImmD;
         
     assign RsD=InstrD[25:21];
     assign RtD=InstrD[20:16];
@@ -36,9 +36,9 @@ module mips(clk,rst);
     //**********************decode wire**********************//
     
     //**********************execute wire*********************//
-    wire [5:0]RsE;
-    wire [5:0]RtE;
-    wire [5:0]RdE;
+    wire [5:0] RsE;
+    wire [5:0] RtE;
+    wire [5:0] RdE;
     wire RegWriteE;
     wire MemtoRegE;
     wire MemWriteE;
@@ -50,23 +50,31 @@ module mips(clk,rst);
     wire [31:0] RD2E;
     wire [31:0] SignImmE;
     wire [31:0] PCPlus4E;
-        
+    wire [31:0] SrcAE;
+    wire [31:0] SrcBE;
+    wire [4:0] WriteRegE;
+    wire [31:0] WriteDataE;
     //**********************execute wire*********************//
     
     //**********************memory wire**********************//
-    wire [31:0]PCBranchM;
+    wire [31:0] PCBranchM;
     wire PCSrcM;
+    wire [31:0] ALUOutM;
     //**********************memory wire**********************//
     
     //*********************writeback wire********************//
-    wire [4:0]WriteRegW;
-    wire [31:0]ResultW;
+    wire [4:0] WriteRegW;
+    wire [31:0] ResultW;
     wire RegWriteW;
     //*********************writeback wire********************//
 
+    //*********************conflict wire*********************//
+    wire [1:0] ForwardAE;
+    wire [1:0] ForwardBE;
+    //*********************conflict wire*********************//
     
     //*********************fetch module**********************//
-    mux PC_Src_mux(PCPlus4F,PCBranchM,PCSrcM,nPCF);//choose the source of PC with signal PCSrcM; 0 for PCPlus4F, 1 for PCBranchM;
+    mux_32 PC_Src_mux(PCPlus4F,PCBranchM,PCSrcM,nPCF);//choose the source of PC with signal PCSrcM; 0 for PCPlus4F, 1 for PCBranchM;
     
     pc U_pc(clk,rst,nPCF,PCF);
     
@@ -88,14 +96,26 @@ module mips(clk,rst);
     SignImmD,PCPlus4D,RegWriteE,MemtoRegE,MemWriteE,ALUControlE,ALUSrcE,RegDstE,BranchE,RD1E,RD2E,RsE,RtE,RdE,SignImmE,PCPlus4E);
     //*********************decode module*********************//
     
-    //*********************execute module********************//    
+    //*********************execute module********************//
+    mux_5 Write_Reg_mux(RtE,RdE,RegDstE,WriteRegE);
+    
+    dmux_32 Alu_SrcA_mux(RD1E,ResultW,ALUOutM,,ForwardAE,SrcAE);
+    
+    dmux_32 Alu_WriteData_mux(RD2E,ResultW,ALUOutM,,ForwardBE,WriteDataE);
+    
+    mux_32 Alu_SrcB_mux(WriteDataE,SignImmE,ALUSrcE,SrcBE);
+    
+    
     //*********************execute module********************//
     
     //*********************memory module*********************//
     //*********************memory module*********************//
     
     //********************writeback module*******************//
-    //********************writeback module*******************//        
+    //********************writeback module*******************//   
+    
+    //********************conflict module********************//
+    //********************conflict module********************//     
         
     //module im_4k(addr,dout);
     
@@ -110,6 +130,8 @@ module mips(clk,rst);
     //module npc(imm_16,imm_26,pc,npc,NPCSel);
     
     //module mux(in1,in2,mux_sel,out);//mux_sel='b0 for in1,mux_sel='b1 for in2
+    
+    //module dmux_32(in1,in2,in3,in4,mux_sel,out);//mux_sel='b00 for in1, mux_sel='b01 for in2, mux_sel='b10 for in3, mux_sel='b11 for in4
     
     //module alu(in_data1,in_data2,ALUctr,out_data,beqout);
     
