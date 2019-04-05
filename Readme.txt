@@ -1,1 +1,3 @@
 完成fetch取值部分，完成github的ssh方式push，花费2小时
+
+execute部分尚未完成，ALU与左移操作尚未完成，没有写入IE_IM模块
