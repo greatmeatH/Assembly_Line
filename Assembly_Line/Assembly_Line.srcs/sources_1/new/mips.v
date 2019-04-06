@@ -16,9 +16,9 @@ module mips(clk,rst);
     //**********************decode wire**********************//
     wire [31:0] PCPlus4D;
     wire [31:0] InstrD;
-    wire [5:0] RsD;
-    wire [5:0] RtD;
-    wire [5:0] RdD;
+    wire [4:0] RsD;
+    wire [4:0] RtD;
+    wire [4:0] RdD;
     wire RegWriteD;
     wire MemtoRegD;
     wire MemWriteD;
@@ -36,9 +36,9 @@ module mips(clk,rst);
     //**********************decode wire**********************//
     
     //**********************execute wire*********************//
-    wire [5:0] RsE;
-    wire [5:0] RtE;
-    wire [5:0] RdE;
+    wire [4:0] RsE;
+    wire [4:0] RtE;
+    wire [4:0] RdE;
     wire RegWriteE;
     wire MemtoRegE;
     wire MemWriteE;
@@ -54,18 +54,33 @@ module mips(clk,rst);
     wire [31:0] SrcBE;
     wire [4:0] WriteRegE;
     wire [31:0] WriteDataE;
+    wire [31:0] ALUOutE;
+    wire ZeroE;
+    wire [31:0] SignImm_2E;
+    wire [31:0] PCBranchE;
     //**********************execute wire*********************//
     
     //**********************memory wire**********************//
     wire [31:0] PCBranchM;
     wire PCSrcM;
     wire [31:0] ALUOutM;
+    wire RegWriteM;
+    wire MemtoRegM;
+    wire MemWriteM;
+    wire BranchM;
+    wire ZeroM;
+    wire [31:0] WriteDataM;
+    wire [4:0] WriteRegM;
+    wire [31:0] ReadDataM;
     //**********************memory wire**********************//
     
     //*********************writeback wire********************//
     wire [4:0] WriteRegW;
     wire [31:0] ResultW;
     wire RegWriteW;
+    wire [31:0] ReadDataW;
+    wire MemtoRegW;
+    wire [31:0] ALUOutW;
     //*********************writeback wire********************//
 
     //*********************conflict wire*********************//
@@ -78,9 +93,9 @@ module mips(clk,rst);
     
     pc U_pc(clk,rst,nPCF,PCF);
     
-    im_4k U_im_4k(PCF,InstrF);
+    im_4k U_im_4k(PCF[11:2],InstrF);
     
-    alu PC_Add_alu(PCF,'b100,'b0,PCPlus4F);
+    alu PC_Add_alu(PCF,3'b100,2'b00,PCPlus4F,);
     
     IF_ID U_IF_ID(clk,rst,PCPlus4F,InstrF,PCPlus4D,InstrD);
     //*********************fetch module**********************//
@@ -105,16 +120,31 @@ module mips(clk,rst);
     
     mux_32 Alu_SrcB_mux(WriteDataE,SignImmE,ALUSrcE,SrcBE);
     
+    alu U_alu(SrcAE,SrcBE,ALUControlE,ALUOutE,ZeroE);
     
+    left_2 PC_Src_left_2(SignImmE,SignImm_2E);
+    
+    alu PC_Branch_alu(SignImm_2E,PCPlus4E,2'b00,PCBranchE);
+    
+    IE_IM U_IE_IM(clk,rst,RegWriteE,MemtoRegE,MemWriteE,BranchE,ZeroE,ALUOutE,WriteDataE,WriteRegE,PCBranchE,
+    RegWriteM,MemtoRegM,MemWriteM,BranchM,ZeroM,ALUOutM,WriteDataM,WriteRegM,PCBranchM);
     //*********************execute module********************//
     
     //*********************memory module*********************//
+    assign PCSrcM=(BranchM&ZeroM);
+    
+    dm_4k U_dm_4k(ALUOutM,WriteDataM,MemWriteM,clk,ReadDataM);
+    
+    IM_IW U_IM_IW(clk,rst,RegWriteM,MemtoRegM,ReadDataM,WriteDataM,WriteRegM,
+    RegWriteW,MemtoRegW,ReadDataW,ALUOutW,WriteRegW);
     //*********************memory module*********************//
     
     //********************writeback module*******************//
+    mux_32 Result_Src_mux(ALUOutW,ReadDataW,MemtoRegW,ResultW);
     //********************writeback module*******************//   
     
     //********************conflict module********************//
+    conflict_control U_conflict_control(clk,rst,RsE,RtE,WriteRegE,WriteRegW,RegWriteM,RegWriteW,ForwardAE,ForwardBE);
     //********************conflict module********************//     
         
     //module im_4k(addr,dout);
@@ -143,4 +173,13 @@ module mips(clk,rst);
     //id_RD1,id_RD2,id_Rs,id_Rt,id_Rd,id_SignImm,id_PCPlus4,ie_RegWrite,ie_MemtoReg,ie_MemWrite,
     //ie_ALUControl,ie_ALUSrc,ie_RegDst,ie_Branch,ie_RD1,ie_RD2,ie_Rs,ie_Rt,ie_Rd,ie_SignImm,ie_PCPlus4);
     
+    //module IE_IM(clk,rst,ie_RegWrite,ie_MemtoReg,ie_MemWrite,ie_Branch,ie_Zero,ie_ALUOut,ie_WriteData,ie_WriteReg,ie_PCBranch,
+    //RegWrite_im,MemtoReg_im,MemWrite_im,Branch_im,Zero_im,ALUOut_im,WriteData_im,WriteReg_im,PCBranch_im);
+    
+    //module left_2(in,out);
+    
+    //module IM_IW(clk,rst,im_RegWrite,im_MemtoReg,im_ReadData,im_ALUOut,im_WriteReg,
+    //RegWrite_iw,MemtoReg_iw,ReadData_iw,ALUOut_iw,WriteReg_iw);
+    
+    //module conflict_control(clk,rst,cc_RsE,cc_RtE,cc_WriteRegM,cc_WriteRegW,cc_RegWriteM,cc_RegWriteW,cc_ForwardAE,cc_ForwardBE);
 endmodule

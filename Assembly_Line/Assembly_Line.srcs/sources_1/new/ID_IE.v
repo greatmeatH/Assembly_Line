@@ -1,6 +1,6 @@
-`timescale 1ns / 1ps
+`timescale 1ns / 1ns
 module ID_IE(clk,rst,id_RegWrite,id_MemtoReg,id_MemWrite,id_ALUControl,id_ALUSrc,id_RegDst,id_Branch,id_RD1,id_RD2,id_Rs,id_Rt,id_Rd,id_SignImm,id_PCPlus4,
-ie_RegWrite,ie_MemtoReg,ie_MemWrite,ie_ALUControl,ie_ALUSrc,ie_RegDst,ie_Branch,ie_RD1,ie_RD2,ie_Rs,ie_Rt,ie_Rd,ie_SignImm,ie_PCPlus4);
+RegWrite_ie,MemtoReg_ie,MemWrite_ie,ALUControl_ie,ALUSrc_ie,RegDst_ie,Branch_ie,RD1_ie,RD2_ie,Rs_ie,Rt_ie,Rd_ie,SignImm_ie,PCPlus4_ie);
 input wire clk;
 input wire rst;
 input wire id_RegWrite;
@@ -17,20 +17,37 @@ input wire [5:0] id_Rt;
 input wire [5:0] id_Rd;
 input wire [31:0] id_SignImm;
 input wire [31:0] id_PCPlus4;
-output reg ie_RegWrite;
-output reg ie_MemtoReg;
-output reg ie_MemWrite;
-output reg [2:0] ie_ALUControl;
-output reg ie_ALUSrc;
-output reg ie_RegDst;
-output reg ie_Branch;
-output reg [31:0] ie_RD1;
-output reg [31:0] ie_RD2;
-output reg [5:0] ie_Rs;
-output reg [5:0] ie_Rt;
-output reg [5:0] ie_Rd;
-output reg [31:0] ie_SignImm;
-output reg [31:0] ie_PCPlus4;
+output reg RegWrite_ie;
+output reg MemtoReg_ie;
+output reg MemWrite_ie;
+output reg [2:0] ALUControl_ie;
+output reg ALUSrc_ie;
+output reg RegDst_ie;
+output reg Branch_ie;
+output reg [31:0] RD1_ie;
+output reg [31:0] RD2_ie;
+output reg [5:0] Rs_ie;
+output reg [5:0] Rt_ie;
+output reg [5:0] Rd_ie;
+output reg [31:0] SignImm_ie;
+output reg [31:0] PCPlus4_ie;
 
+always@(posedge clk)
+    begin
+        RegWrite_ie<=id_RegWrite;
+        MemtoReg_ie<=id_MemtoReg;
+        MemWrite_ie<=id_MemWrite;
+        ALUControl_ie<=id_ALUControl;
+        ALUSrc_ie<=id_ALUSrc;
+        RegDst_ie<=id_RegDst;
+        Branch_ie<=id_Branch;
+        RD1_ie<=id_RD1;
+        RD2_ie<=id_RD2;
+        Rs_ie<=id_Rs;
+        Rt_ie<=id_Rt;
+        Rd_ie<=id_Rd;
+        SignImm_ie<=id_SignImm;
+        PCPlus4_ie<=id_PCPlus4;
+    end
 
 endmodule

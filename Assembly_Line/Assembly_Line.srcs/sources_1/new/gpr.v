@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+`timescale 1ns / 1ns
 
 
 module gpr(clk,rs,rt,dst,RegWr,in_data,out_rs,out_rt);

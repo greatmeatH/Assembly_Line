@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+`timescale 1ns / 1ns
 module dmux_32(in1,in2,in3,in4,mux_sel,out);
 input wire [31:0] in1;
 input wire [31:0] in2;
