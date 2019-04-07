@@ -1,3 +1,7 @@
 完成fetch取值部分，完成github的ssh方式push，花费2小时
 
 execute部分尚未完成，ALU与左移操作尚未完成，没有写入IE_IM模块
+
+完成control模块，原设计没有考虑到J指令，后续工作需要修改体系扩展指令格式
+
+完成conflict_control模块，对于verilog的选择分支语句尚不熟悉，后续工作需要进一步学习，流水线设计告一段落尚待测试
