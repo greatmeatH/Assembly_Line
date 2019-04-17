@@ -19,16 +19,16 @@ module mips(clk,rst);
     wire [4:0] RsD;
     wire [4:0] RtD;
     wire [4:0] RdD;
-    wire RegWriteD;
-    wire MemtoRegD;
-    wire MemWriteD;
-    wire [2:0] ALUControlD;
-    wire ALUSrcD;
-    wire RegDstD;
-    wire BranchD;
-    wire [31:0] RD1;
-    wire [31:0] RD2;
-    wire [31:0] SignImmD;
+    wire RegWriteD;//register write enable
+    wire MemtoRegD;//register write with data from memory
+    wire MemWriteD;//memory write enable
+    wire [2:0] ALUControlD;//control alu operator: 'b00 for add, 'b01 for logic_or
+    wire ALUSrcD;//alu source:'b0 for reg_rt_data, 'b1 for extended_16bit_immediate
+    wire RegDstD;//destination of register write: 'b0 for rt, 'b1 for rd
+    wire BranchD;//instruction beq signal, Branch&Zero=>choose source of PC
+    wire [31:0] RD1;//register data read from rs
+    wire [31:0] RD2;//register data read from rt
+    wire [31:0] SignImmD;//extended data from 16 bits immediate number
         
     assign RsD=InstrD[25:21];
     assign RtD=InstrD[20:16];
@@ -50,13 +50,13 @@ module mips(clk,rst);
     wire [31:0] RD2E;
     wire [31:0] SignImmE;
     wire [31:0] PCPlus4E;
-    wire [31:0] SrcAE;
-    wire [31:0] SrcBE;
+    wire [31:0] SrcAE;//first source data of alu
+    wire [31:0] SrcBE;//second source data of alu
     wire [4:0] WriteRegE;
     wire [31:0] WriteDataE;
-    wire [31:0] ALUOutE;
-    wire ZeroE;
-    wire [31:0] SignImm_2E;
+    wire [31:0] ALUOutE;//output of alu
+    wire ZeroE;//if first source of alu equals to second one
+    wire [31:0] SignImm_2E;//extended immediately after moving two spaces to the left
     wire [31:0] PCBranchE;
     //**********************execute wire*********************//
     
@@ -97,54 +97,54 @@ module mips(clk,rst);
     
     alu PC_Add_alu(PCF,3'b100,2'b00,PCPlus4F,);
     
-    IF_ID U_IF_ID(clk,rst,PCPlus4F,InstrF,PCPlus4D,InstrD);
+    IF_ID U_IF_ID(clk,rst,PCPlus4F,InstrF,PCPlus4D,InstrD);//a set of registers that transfer data from fetch period to decode period
     //*********************fetch module**********************//
     
     //*********************decode module*********************//
-    gpr U_gpr(clk,RsD,RtD,WriteRegW,RegWriteW,ResultW,RD1,RD2);
+    gpr U_gpr(clk,RsD,RtD,WriteRegW,RegWriteW,ResultW,RD1,RD2);//registers
     
-    ext U_ext(InstrD[15:0],SignImmD);
+    ext U_ext(InstrD[15:0],SignImmD);//extension module
     
     controller U_controller(InstrD[31:26],InstrD[5:0],RegWriteD,MemtoRegD,MemWriteD,ALUControlD,ALUSrcD,RegDstD,BranchD);
     
     ID_IE U_ID_IE(clk,rst,RegWriteD,MemtoRegD,MemWriteD,ALUControlD,ALUSrcD,RegDstD,BranchD,RD1,RD2,RsD,RtD,RdD,
-    SignImmD,PCPlus4D,RegWriteE,MemtoRegE,MemWriteE,ALUControlE,ALUSrcE,RegDstE,BranchE,RD1E,RD2E,RsE,RtE,RdE,SignImmE,PCPlus4E);
+    SignImmD,PCPlus4D,RegWriteE,MemtoRegE,MemWriteE,ALUControlE,ALUSrcE,RegDstE,BranchE,RD1E,RD2E,RsE,RtE,RdE,SignImmE,PCPlus4E);//a set of registers that transfer data from decode period to execute period
     //*********************decode module*********************//
     
     //*********************execute module********************//
-    mux_5 Write_Reg_mux(RtE,RdE,RegDstE,WriteRegE);
+    mux_5 Write_Reg_mux(RtE,RdE,RegDstE,WriteRegE);//choose reg to write
     
-    dmux_32 Alu_SrcA_mux(RD1E,ResultW,ALUOutM,,ForwardAE,SrcAE);
+    dmux_32 Alu_SrcA_mux(RD1E,ResultW,ALUOutM,,ForwardAE,SrcAE);//choose first source of alu: 'b00 for rs, 'b01 for data from memory period(two periods apart), 'b10 for data from alu period(one period apart); controlled by conflict_control module
     
-    dmux_32 Alu_WriteData_mux(RD2E,ResultW,ALUOutM,,ForwardBE,WriteDataE);
+    dmux_32 Alu_WriteData_mux(RD2E,ResultW,ALUOutM,,ForwardBE,WriteDataE);//choose possible second source of alu like Alu_SrcA_mux, output is also been used as data to write memory(sw)
     
-    mux_32 Alu_SrcB_mux(WriteDataE,SignImmE,ALUSrcE,SrcBE);
+    mux_32 Alu_SrcB_mux(WriteDataE,SignImmE,ALUSrcE,SrcBE);//choose second source of alu, 'b0 for rt/redirection data, 'b1 for extended 16 bits immediately
     
     alu U_alu(SrcAE,SrcBE,ALUControlE,ALUOutE,ZeroE);
     
-    left_2 PC_Src_left_2(SignImmE,SignImm_2E);
+    left_2 PC_Src_left_2(SignImmE,SignImm_2E);//make the 16 bits immediately two places to the left 
     
     alu PC_Branch_alu(SignImm_2E,PCPlus4E,2'b00,PCBranchE);
     
     IE_IM U_IE_IM(clk,rst,RegWriteE,MemtoRegE,MemWriteE,BranchE,ZeroE,ALUOutE,WriteDataE,WriteRegE,PCBranchE,
-    RegWriteM,MemtoRegM,MemWriteM,BranchM,ZeroM,ALUOutM,WriteDataM,WriteRegM,PCBranchM);
+    RegWriteM,MemtoRegM,MemWriteM,BranchM,ZeroM,ALUOutM,WriteDataM,WriteRegM,PCBranchM);//execute period to memory period
     //*********************execute module********************//
     
     //*********************memory module*********************//
     assign PCSrcM=(BranchM&ZeroM);
     
-    dm_4k U_dm_4k(ALUOutM,WriteDataM,MemWriteM,clk,ReadDataM);
+    dm_4k U_dm_4k(ALUOutM,WriteDataM,MemWriteM,clk,ReadDataM);//data memory
     
     IM_IW U_IM_IW(clk,rst,RegWriteM,MemtoRegM,ReadDataM,WriteDataM,WriteRegM,
-    RegWriteW,MemtoRegW,ReadDataW,ALUOutW,WriteRegW);
+    RegWriteW,MemtoRegW,ReadDataW,ALUOutW,WriteRegW);//memory period to writeback period
     //*********************memory module*********************//
     
     //********************writeback module*******************//
-    mux_32 Result_Src_mux(ALUOutW,ReadDataW,MemtoRegW,ResultW);
+    mux_32 Result_Src_mux(ALUOutW,ReadDataW,MemtoRegW,ResultW);//choose data from memory or alu
     //********************writeback module*******************//   
     
     //********************conflict module********************//
-    conflict_control U_conflict_control(clk,rst,RsE,RtE,WriteRegE,WriteRegW,RegWriteM,RegWriteW,ForwardAE,ForwardBE);
+    conflict_control U_conflict_control(clk,rst,RsE,RtE,WriteRegE,WriteRegW,RegWriteM,RegWriteW,ForwardAE,ForwardBE);//deal with data conflict
     //********************conflict module********************//     
         
     //module im_4k(addr,dout);
