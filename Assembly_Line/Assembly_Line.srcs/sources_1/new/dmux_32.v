@@ -5,8 +5,9 @@ input wire [31:0] in2;
 input wire [31:0] in3;
 input wire [31:0] in4;
 input wire [1:0] mux_sel;
-output wire [31:0] out;
+output reg [31:0] out;
 
-assign out=(mux_sel=='b00)?in1:(mux_sel=='b01)?in2:(mux_sel=='b10)?in3:in4;
-
+always@(*) begin
+    out<=(mux_sel=='b00)?in1:(mux_sel=='b01)?in2:(mux_sel=='b10)?in3:in4;
+end
 endmodule

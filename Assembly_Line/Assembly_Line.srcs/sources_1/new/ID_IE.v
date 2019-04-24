@@ -12,9 +12,9 @@ input wire id_RegDst;
 input wire id_Branch;
 input wire [31:0] id_RD1;
 input wire [31:0] id_RD2;
-input wire [5:0] id_Rs;
-input wire [5:0] id_Rt;
-input wire [5:0] id_Rd;
+input wire [4:0] id_Rs;
+input wire [4:0] id_Rt;
+input wire [4:0] id_Rd;
 input wire [31:0] id_SignImm;
 input wire [31:0] id_PCPlus4;
 output reg RegWrite_ie;
@@ -26,28 +26,46 @@ output reg RegDst_ie;
 output reg Branch_ie;
 output reg [31:0] RD1_ie;
 output reg [31:0] RD2_ie;
-output reg [5:0] Rs_ie;
-output reg [5:0] Rt_ie;
-output reg [5:0] Rd_ie;
+output reg [4:0] Rs_ie;
+output reg [4:0] Rt_ie;
+output reg [4:0] Rd_ie;
 output reg [31:0] SignImm_ie;
 output reg [31:0] PCPlus4_ie;
 
+
 always@(posedge clk)
     begin
-        RegWrite_ie<=id_RegWrite;
-        MemtoReg_ie<=id_MemtoReg;
-        MemWrite_ie<=id_MemWrite;
-        ALUControl_ie<=id_ALUControl;
-        ALUSrc_ie<=id_ALUSrc;
-        RegDst_ie<=id_RegDst;
-        Branch_ie<=id_Branch;
-        RD1_ie<=id_RD1;
-        RD2_ie<=id_RD2;
-        Rs_ie<=id_Rs;
-        Rt_ie<=id_Rt;
-        Rd_ie<=id_Rd;
-        SignImm_ie<=id_SignImm;
-        PCPlus4_ie<=id_PCPlus4;
+        if(rst=='b0) begin
+            RegWrite_ie<=id_RegWrite;
+            MemtoReg_ie<=id_MemtoReg;
+            MemWrite_ie<=id_MemWrite;
+            ALUControl_ie<=id_ALUControl;
+            ALUSrc_ie<=id_ALUSrc;
+            RegDst_ie<=id_RegDst;
+            Branch_ie<=id_Branch;
+            RD1_ie<=id_RD1;
+            RD2_ie<=id_RD2;
+            Rs_ie<=id_Rs;
+            Rt_ie<=id_Rt;
+            Rd_ie<=id_Rd;
+            SignImm_ie<=id_SignImm;
+            PCPlus4_ie<=id_PCPlus4;
+        end else begin
+            RegWrite_ie<='b0;
+            MemtoReg_ie<='b0;
+            MemWrite_ie<='b0;
+            ALUControl_ie<='b0;
+            ALUSrc_ie<='b0;
+            RegDst_ie<='b0;
+            Branch_ie<='b0;
+            RD1_ie<='h0000_0000;
+            RD2_ie<='h0000_0000;
+            Rs_ie<='b00000;
+            Rt_ie<='b00000;
+            Rd_ie<='b00000;
+            SignImm_ie<='h0000_0000;
+            PCPlus4_ie<='h0000_0000;
+        end
     end
 
 endmodule

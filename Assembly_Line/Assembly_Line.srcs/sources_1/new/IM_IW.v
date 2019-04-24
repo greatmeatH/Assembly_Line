@@ -14,13 +14,20 @@ RegWrite_iw,MemtoReg_iw,ReadData_iw,ALUOut_iw,WriteReg_iw);
     output reg [31:0] ALUOut_iw;
     output reg [4:0] WriteReg_iw;
     
-    always@(posedge clk)
-        begin
+    always@(posedge clk) begin
+        if(rst=='b0) begin
             RegWrite_iw<=im_RegWrite;
             MemtoReg_iw<=im_MemtoReg;
             ReadData_iw<=im_ReadData;
             ALUOut_iw<=im_ALUOut;
             WriteReg_iw<=im_WriteReg;
+        end else begin
+            RegWrite_iw<='b0;
+            MemtoReg_iw<='b0;
+            ReadData_iw<='h0000_0000;
+            ALUOut_iw<='h0000_0000;
+            WriteReg_iw<='b00000;            
         end
+    end
     
 endmodule

@@ -2,11 +2,11 @@
 # Webtalk v2018.1 (64-bit)
 # SW Build 2188600 on Wed Apr  4 18:39:19 MDT 2018
 # IP Build 2185939 on Wed Apr  4 20:55:05 MDT 2018
-# Start of session at: Fri Apr  5 07:11:30 2019
-# Process ID: 51050
+# Start of session at: Tue Apr 23 05:09:14 2019
+# Process ID: 106815
 # Current directory: /home/hejunwen/Assembly_Line/Assembly_Line/Assembly_Line.sim/sim_1/behav/xsim
-# Command line: wbtcv -mode batch -source /home/hejunwen/Assembly_Line/Assembly_Line/Assembly_Line.sim/sim_1/behav/xsim/xsim.dir/mips_behav/webtalk/xsim_webtalk.tcl -notrace
+# Command line: wbtcv -mode batch -source /home/hejunwen/Assembly_Line/Assembly_Line/Assembly_Line.sim/sim_1/behav/xsim/xsim.dir/testbench_behav/webtalk/xsim_webtalk.tcl -notrace
 # Log file: /home/hejunwen/Assembly_Line/Assembly_Line/Assembly_Line.sim/sim_1/behav/xsim/webtalk.log
 # Journal file: /home/hejunwen/Assembly_Line/Assembly_Line/Assembly_Line.sim/sim_1/behav/xsim/webtalk.jou
 #-----------------------------------------------------------
-source /home/hejunwen/Assembly_Line/Assembly_Line/Assembly_Line.sim/sim_1/behav/xsim/xsim.dir/mips_behav/webtalk/xsim_webtalk.tcl -notrace
+source /home/hejunwen/Assembly_Line/Assembly_Line/Assembly_Line.sim/sim_1/behav/xsim/xsim.dir/testbench_behav/webtalk/xsim_webtalk.tcl -notrace

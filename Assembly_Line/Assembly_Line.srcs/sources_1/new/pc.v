@@ -6,10 +6,12 @@ module pc(clk,rst,npc,pc);
     output reg[31:0] pc;
     
     
-    always@(posedge clk)
-        pc<=npc;
-        
-    always@(posedge rst)
-        pc<='h0000_3000;
+    always@(posedge clk) begin
+        if(rst=='b0) begin
+            pc<=npc;
+        end else begin
+            pc<='h0000_3000;
+        end
+    end
     
 endmodule

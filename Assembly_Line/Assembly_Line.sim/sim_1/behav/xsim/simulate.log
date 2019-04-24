@@ -1,2 +1,4 @@
 Vivado Simulator 2018.1
 Time resolution is 1 ps
+WARNING: Too many words specified in data file /home/hejunwen/Assembly_Line/Assembly_Line/Assembly_Line.data/cal_data.txt
+Time                50000,R16=ffff0000

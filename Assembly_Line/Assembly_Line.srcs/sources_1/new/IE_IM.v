@@ -22,8 +22,8 @@ RegWrite_im,MemtoReg_im,MemWrite_im,Branch_im,Zero_im,ALUOut_im,WriteData_im,Wri
     output reg [4:0] WriteReg_im;
     output reg [31:0] PCBranch_im;
     
-    always@(posedge clk)
-        begin
+    always@(posedge clk) begin
+        if(rst=='b0) begin
             RegWrite_im<=ie_RegWrite;
             MemtoReg_im<=ie_MemtoReg;
             MemWrite_im<=ie_MemWrite;
@@ -33,6 +33,17 @@ RegWrite_im,MemtoReg_im,MemWrite_im,Branch_im,Zero_im,ALUOut_im,WriteData_im,Wri
             WriteData_im<=ie_WriteData;
             WriteReg_im<=ie_WriteReg;
             PCBranch_im<=ie_PCBranch;
+        end else begin
+            RegWrite_im<='b0;
+            MemtoReg_im<='b0;
+            MemWrite_im<='b0;
+            Branch_im<='b0;
+            Zero_im<='b0;
+            ALUOut_im<='h0000_0000;
+            WriteData_im<='h0000_0000;
+            WriteReg_im<='b00000;
+            PCBranch_im<='h0000_3000;
         end
+    end
         
 endmodule

@@ -14,9 +14,9 @@ Starting synth_design
 Attempting to get a license for feature 'Synthesis' and/or device 'xc7a12ti'
 INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a12ti'
 INFO: Launching helper process for spawning children vivado processes
-INFO: Helper process launched with PID 58940 
+INFO: Helper process launched with PID 95598 
 ---------------------------------------------------------------------------------
-Starting Synthesize : Time (s): cpu = 00:00:08 ; elapsed = 00:00:12 . Memory (MB): peak = 1261.617 ; gain = 76.910 ; free physical = 268 ; free virtual = 5525
+Starting Synthesize : Time (s): cpu = 00:00:09 ; elapsed = 00:00:18 . Memory (MB): peak = 1261.621 ; gain = 76.910 ; free physical = 107 ; free virtual = 5842
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-6157] synthesizing module 'mips' [/home/hejunwen/Assembly_Line/Assembly_Line/Assembly_Line.srcs/sources_1/new/mips.v:2]
 INFO: [Synth 8-6157] synthesizing module 'mux_32' [/home/hejunwen/Assembly_Line/Assembly_Line/Assembly_Line.srcs/sources_1/new/mux.v:2]
@@ -167,54 +167,13 @@ INFO: [Synth 8-6155] done synthesizing module 'IM_IW' (15#1) [/home/hejunwen/Ass
 INFO: [Synth 8-6157] synthesizing module 'conflict_control' [/home/hejunwen/Assembly_Line/Assembly_Line/Assembly_Line.srcs/sources_1/new/conflict_control.v:2]
 INFO: [Synth 8-6155] done synthesizing module 'conflict_control' (16#1) [/home/hejunwen/Assembly_Line/Assembly_Line/Assembly_Line.srcs/sources_1/new/conflict_control.v:2]
 INFO: [Synth 8-6155] done synthesizing module 'mips' (17#1) [/home/hejunwen/Assembly_Line/Assembly_Line/Assembly_Line.srcs/sources_1/new/mips.v:2]
-WARNING: [Synth 8-3331] design conflict_control has unconnected port cc_ForwardAE[1]
-WARNING: [Synth 8-3331] design conflict_control has unconnected port cc_ForwardAE[0]
-WARNING: [Synth 8-3331] design conflict_control has unconnected port cc_ForwardBE[1]
-WARNING: [Synth 8-3331] design conflict_control has unconnected port cc_ForwardBE[0]
 WARNING: [Synth 8-3331] design conflict_control has unconnected port clk
 WARNING: [Synth 8-3331] design conflict_control has unconnected port rst
-WARNING: [Synth 8-3331] design conflict_control has unconnected port cc_RsE[4]
-WARNING: [Synth 8-3331] design conflict_control has unconnected port cc_RsE[3]
-WARNING: [Synth 8-3331] design conflict_control has unconnected port cc_RsE[2]
-WARNING: [Synth 8-3331] design conflict_control has unconnected port cc_RsE[1]
-WARNING: [Synth 8-3331] design conflict_control has unconnected port cc_RsE[0]
-WARNING: [Synth 8-3331] design conflict_control has unconnected port cc_RtE[4]
-WARNING: [Synth 8-3331] design conflict_control has unconnected port cc_RtE[3]
-WARNING: [Synth 8-3331] design conflict_control has unconnected port cc_RtE[2]
-WARNING: [Synth 8-3331] design conflict_control has unconnected port cc_RtE[1]
-WARNING: [Synth 8-3331] design conflict_control has unconnected port cc_RtE[0]
-WARNING: [Synth 8-3331] design conflict_control has unconnected port cc_WriteRegM[4]
-WARNING: [Synth 8-3331] design conflict_control has unconnected port cc_WriteRegM[3]
-WARNING: [Synth 8-3331] design conflict_control has unconnected port cc_WriteRegM[2]
-WARNING: [Synth 8-3331] design conflict_control has unconnected port cc_WriteRegM[1]
-WARNING: [Synth 8-3331] design conflict_control has unconnected port cc_WriteRegM[0]
-WARNING: [Synth 8-3331] design conflict_control has unconnected port cc_WriteRegW[4]
-WARNING: [Synth 8-3331] design conflict_control has unconnected port cc_WriteRegW[3]
-WARNING: [Synth 8-3331] design conflict_control has unconnected port cc_WriteRegW[2]
-WARNING: [Synth 8-3331] design conflict_control has unconnected port cc_WriteRegW[1]
-WARNING: [Synth 8-3331] design conflict_control has unconnected port cc_WriteRegW[0]
-WARNING: [Synth 8-3331] design conflict_control has unconnected port cc_RegWriteM
-WARNING: [Synth 8-3331] design conflict_control has unconnected port cc_RegWriteW
 WARNING: [Synth 8-3331] design IM_IW has unconnected port rst
 WARNING: [Synth 8-3331] design IE_IM has unconnected port rst
 WARNING: [Synth 8-3331] design left_2 has unconnected port in[31]
 WARNING: [Synth 8-3331] design left_2 has unconnected port in[30]
 WARNING: [Synth 8-3331] design ID_IE has unconnected port rst
-WARNING: [Synth 8-3331] design controller has unconnected port RegWrite
-WARNING: [Synth 8-3331] design controller has unconnected port MemtoReg
-WARNING: [Synth 8-3331] design controller has unconnected port MemWrite
-WARNING: [Synth 8-3331] design controller has unconnected port ALUControl[2]
-WARNING: [Synth 8-3331] design controller has unconnected port ALUControl[1]
-WARNING: [Synth 8-3331] design controller has unconnected port ALUControl[0]
-WARNING: [Synth 8-3331] design controller has unconnected port ALUSrc
-WARNING: [Synth 8-3331] design controller has unconnected port RegDst
-WARNING: [Synth 8-3331] design controller has unconnected port Branch
-WARNING: [Synth 8-3331] design controller has unconnected port op[5]
-WARNING: [Synth 8-3331] design controller has unconnected port op[4]
-WARNING: [Synth 8-3331] design controller has unconnected port op[3]
-WARNING: [Synth 8-3331] design controller has unconnected port op[2]
-WARNING: [Synth 8-3331] design controller has unconnected port op[1]
-WARNING: [Synth 8-3331] design controller has unconnected port op[0]
 WARNING: [Synth 8-3331] design controller has unconnected port funct[5]
 WARNING: [Synth 8-3331] design controller has unconnected port funct[4]
 WARNING: [Synth 8-3331] design controller has unconnected port funct[3]
@@ -222,22 +181,27 @@ WARNING: [Synth 8-3331] design controller has unconnected port funct[2]
 WARNING: [Synth 8-3331] design controller has unconnected port funct[1]
 WARNING: [Synth 8-3331] design controller has unconnected port funct[0]
 ---------------------------------------------------------------------------------
-Finished Synthesize : Time (s): cpu = 00:00:10 ; elapsed = 00:00:13 . Memory (MB): peak = 1312.742 ; gain = 128.035 ; free physical = 271 ; free virtual = 5528
+Finished Synthesize : Time (s): cpu = 00:00:10 ; elapsed = 00:00:20 . Memory (MB): peak = 1312.746 ; gain = 128.035 ; free physical = 163 ; free virtual = 5846
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:10 ; elapsed = 00:00:13 . Memory (MB): peak = 1312.742 ; gain = 128.035 ; free physical = 272 ; free virtual = 5529
+Finished Constraint Validation : Time (s): cpu = 00:00:10 ; elapsed = 00:00:21 . Memory (MB): peak = 1312.746 ; gain = 128.035 ; free physical = 164 ; free virtual = 5847
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7a12ticsg325-1L
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:10 ; elapsed = 00:00:13 . Memory (MB): peak = 1320.746 ; gain = 136.039 ; free physical = 272 ; free virtual = 5529
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:10 ; elapsed = 00:00:21 . Memory (MB): peak = 1320.750 ; gain = 136.039 ; free physical = 163 ; free virtual = 5847
 ---------------------------------------------------------------------------------
 INFO: [Device 21-403] Loading part xc7a12ticsg325-1L
 INFO: [Synth 8-5545] ROM "beqout" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
+INFO: [Synth 8-5546] ROM "add" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "lw" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "ori" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "sw" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "beq" won't be mapped to RAM because it is too sparse
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:11 ; elapsed = 00:00:15 . Memory (MB): peak = 1336.762 ; gain = 152.055 ; free physical = 233 ; free virtual = 5491
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:11 ; elapsed = 00:00:23 . Memory (MB): peak = 1336.766 ; gain = 152.055 ; free physical = 126 ; free virtual = 5812
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -263,7 +227,8 @@ Detailed RTL Component Info :
 	   2 Input     32 Bit        Muxes := 8     
 	   4 Input     32 Bit        Muxes := 2     
 	   2 Input      5 Bit        Muxes := 1     
-	   2 Input      1 Bit        Muxes := 3     
+	   2 Input      2 Bit        Muxes := 2     
+	   2 Input      1 Bit        Muxes := 13    
 ---------------------------------------------------------------------------------
 Finished RTL Component Statistics 
 ---------------------------------------------------------------------------------
@@ -291,6 +256,10 @@ Module gpr
 Detailed RTL Component Info : 
 +---Muxes : 
 	   2 Input     32 Bit        Muxes := 2     
+Module controller 
+Detailed RTL Component Info : 
++---Muxes : 
+	   2 Input      1 Bit        Muxes := 8     
 Module ID_IE 
 Detailed RTL Component Info : 
 +---Registers : 
@@ -318,6 +287,11 @@ Detailed RTL Component Info :
 	               32 Bit    Registers := 2     
 	                5 Bit    Registers := 1     
 	                1 Bit    Registers := 2     
+Module conflict_control 
+Detailed RTL Component Info : 
++---Muxes : 
+	   2 Input      2 Bit        Muxes := 2     
+	   2 Input      1 Bit        Muxes := 2     
 ---------------------------------------------------------------------------------
 Finished RTL Hierarchical Component Statistics
 ---------------------------------------------------------------------------------
@@ -335,10 +309,13 @@ No constraint files found.
 Start Cross Boundary and Area Optimization
 ---------------------------------------------------------------------------------
 Warning: Parallel synthesis criteria is not met 
-WARNING: [Synth 8-6014] Unused sequential element U_ID_IE/Rs_ie_reg was removed.  [/home/hejunwen/Assembly_Line/Assembly_Line/Assembly_Line.srcs/sources_1/new/ID_IE.v:46]
 WARNING: [Synth 8-3936] Found unconnected internal register 'U_ID_IE/Rt_ie_reg' and it is trimmed from '6' to '5' bits. [/home/hejunwen/Assembly_Line/Assembly_Line/Assembly_Line.srcs/sources_1/new/ID_IE.v:47]
+WARNING: [Synth 8-3936] Found unconnected internal register 'U_ID_IE/Rs_ie_reg' and it is trimmed from '6' to '5' bits. [/home/hejunwen/Assembly_Line/Assembly_Line/Assembly_Line.srcs/sources_1/new/ID_IE.v:46]
 WARNING: [Synth 8-3936] Found unconnected internal register 'U_ID_IE/Rd_ie_reg' and it is trimmed from '6' to '5' bits. [/home/hejunwen/Assembly_Line/Assembly_Line/Assembly_Line.srcs/sources_1/new/ID_IE.v:48]
 WARNING: [Synth 8-3936] Found unconnected internal register 'U_ID_IE/ALUControl_ie_reg' and it is trimmed from '3' to '2' bits. [/home/hejunwen/Assembly_Line/Assembly_Line/Assembly_Line.srcs/sources_1/new/ID_IE.v:40]
+INFO: [Synth 8-5546] ROM "U_controller/ori" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "U_controller/lw" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "U_controller/add" won't be mapped to RAM because it is too sparse
 INFO: [Synth 8-5545] ROM "U_alu/beqout" won't be mapped to RAM because address size (32) is larger than maximum supported(25)
 WARNING: [Synth 8-3332] Sequential element (U_pc/pc_reg[31]) is unused and will be removed from module mips.
 WARNING: [Synth 8-3332] Sequential element (U_pc/pc_reg[30]) is unused and will be removed from module mips.
@@ -442,7 +419,7 @@ WARNING: [Synth 8-3332] Sequential element (U_ID_IE/PCPlus4_ie_reg[29]) is unuse
 WARNING: [Synth 8-3332] Sequential element (U_ID_IE/PCPlus4_ie_reg[28]) is unused and will be removed from module mips.
 INFO: [Common 17-14] Message 'Synth 8-3332' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:24 ; elapsed = 00:00:47 . Memory (MB): peak = 1478.848 ; gain = 294.141 ; free physical = 158 ; free virtual = 5373
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:22 ; elapsed = 00:01:01 . Memory (MB): peak = 1478.852 ; gain = 294.141 ; free physical = 166 ; free virtual = 5706
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -455,7 +432,7 @@ No constraint files found.
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:24 ; elapsed = 00:00:48 . Memory (MB): peak = 1478.848 ; gain = 294.141 ; free physical = 158 ; free virtual = 5373
+Finished Timing Optimization : Time (s): cpu = 00:00:22 ; elapsed = 00:01:01 . Memory (MB): peak = 1478.852 ; gain = 294.141 ; free physical = 166 ; free virtual = 5706
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -467,7 +444,7 @@ Report RTL Partitions:
 Start Technology Mapping
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:24 ; elapsed = 00:00:48 . Memory (MB): peak = 1478.848 ; gain = 294.141 ; free physical = 158 ; free virtual = 5373
+Finished Technology Mapping : Time (s): cpu = 00:00:22 ; elapsed = 00:01:01 . Memory (MB): peak = 1478.852 ; gain = 294.141 ; free physical = 166 ; free virtual = 5706
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -491,7 +468,7 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:25 ; elapsed = 00:00:49 . Memory (MB): peak = 1478.848 ; gain = 294.141 ; free physical = 156 ; free virtual = 5371
+Finished IO Insertion : Time (s): cpu = 00:00:23 ; elapsed = 00:01:02 . Memory (MB): peak = 1478.852 ; gain = 294.141 ; free physical = 166 ; free virtual = 5706
 ---------------------------------------------------------------------------------
 
 Report Check Netlist: 
@@ -504,7 +481,7 @@ Report Check Netlist:
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:25 ; elapsed = 00:00:49 . Memory (MB): peak = 1478.848 ; gain = 294.141 ; free physical = 156 ; free virtual = 5371
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:23 ; elapsed = 00:01:02 . Memory (MB): peak = 1478.852 ; gain = 294.141 ; free physical = 166 ; free virtual = 5706
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -516,25 +493,25 @@ Report RTL Partitions:
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:25 ; elapsed = 00:00:49 . Memory (MB): peak = 1478.848 ; gain = 294.141 ; free physical = 156 ; free virtual = 5371
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:23 ; elapsed = 00:01:02 . Memory (MB): peak = 1478.852 ; gain = 294.141 ; free physical = 166 ; free virtual = 5706
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:00:25 ; elapsed = 00:00:49 . Memory (MB): peak = 1478.848 ; gain = 294.141 ; free physical = 156 ; free virtual = 5371
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:23 ; elapsed = 00:01:02 . Memory (MB): peak = 1478.852 ; gain = 294.141 ; free physical = 166 ; free virtual = 5705
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:25 ; elapsed = 00:00:49 . Memory (MB): peak = 1478.848 ; gain = 294.141 ; free physical = 156 ; free virtual = 5371
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:23 ; elapsed = 00:01:02 . Memory (MB): peak = 1478.852 ; gain = 294.141 ; free physical = 166 ; free virtual = 5705
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:00:25 ; elapsed = 00:00:49 . Memory (MB): peak = 1478.848 ; gain = 294.141 ; free physical = 156 ; free virtual = 5371
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:23 ; elapsed = 00:01:02 . Memory (MB): peak = 1478.852 ; gain = 294.141 ; free physical = 166 ; free virtual = 5705
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -559,11 +536,11 @@ Report Instance Areas:
 |1     |top      |       |     0|
 +------+---------+-------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:25 ; elapsed = 00:00:49 . Memory (MB): peak = 1478.848 ; gain = 294.141 ; free physical = 156 ; free virtual = 5371
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:23 ; elapsed = 00:01:02 . Memory (MB): peak = 1478.852 ; gain = 294.141 ; free physical = 166 ; free virtual = 5705
 ---------------------------------------------------------------------------------
-Synthesis finished with 0 errors, 0 critical warnings and 1529 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:25 ; elapsed = 00:00:49 . Memory (MB): peak = 1478.848 ; gain = 294.141 ; free physical = 156 ; free virtual = 5371
-Synthesis Optimization Complete : Time (s): cpu = 00:00:25 ; elapsed = 00:00:49 . Memory (MB): peak = 1478.855 ; gain = 294.141 ; free physical = 166 ; free virtual = 5381
+Synthesis finished with 0 errors, 0 critical warnings and 1483 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:23 ; elapsed = 00:01:02 . Memory (MB): peak = 1478.852 ; gain = 294.141 ; free physical = 166 ; free virtual = 5706
+Synthesis Optimization Complete : Time (s): cpu = 00:00:23 ; elapsed = 00:01:02 . Memory (MB): peak = 1478.859 ; gain = 294.141 ; free physical = 176 ; free virtual = 5716
 INFO: [Project 1-571] Translating synthesized netlist
 INFO: [Project 1-570] Preparing netlist for logic optimization
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
@@ -571,10 +548,10 @@ INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
 INFO: [Common 17-83] Releasing license: Synthesis
-45 Infos, 267 Warnings, 0 Critical Warnings and 0 Errors encountered.
+53 Infos, 226 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:00:27 ; elapsed = 00:00:53 . Memory (MB): peak = 1504.848 ; gain = 320.230 ; free physical = 174 ; free virtual = 5360
+synth_design: Time (s): cpu = 00:00:24 ; elapsed = 00:01:05 . Memory (MB): peak = 1504.852 ; gain = 320.230 ; free physical = 166 ; free virtual = 5694
 INFO: [Common 17-1381] The checkpoint '/home/hejunwen/Assembly_Line/Assembly_Line/Assembly_Line.runs/synth_1/mips.dcp' has been generated.
 INFO: [runtcl-4] Executing : report_utilization -file mips_utilization_synth.rpt -pb mips_utilization_synth.pb
-report_utilization: Time (s): cpu = 00:00:00.08 ; elapsed = 00:00:00.19 . Memory (MB): peak = 1504.848 ; gain = 0.000 ; free physical = 175 ; free virtual = 5361
-INFO: [Common 17-206] Exiting Vivado at Sat Apr  6 06:55:29 2019...
+report_utilization: Time (s): cpu = 00:00:00.07 ; elapsed = 00:00:00.24 . Memory (MB): peak = 1504.852 ; gain = 0.000 ; free physical = 166 ; free virtual = 5695
+INFO: [Common 17-206] Exiting Vivado at Wed Apr 17 20:49:08 2019...

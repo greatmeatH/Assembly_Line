@@ -9,18 +9,21 @@ module gpr(clk,rs,rt,dst,RegWr,in_data,out_rs,out_rt);
     input [4:0] dst;//the index of register to write
     input RegWr;//write enable
     input [31:0] in_data;//the data to write
-    output [31:0] out_rs;//the data from rs(1st register)
-    output [31:0] out_rt;//the data from rt(2nd register)
+    output reg [31:0] out_rs;//the data from rs(1st register)
+    output reg [31:0] out_rt;//the data from rt(2nd register)
     
     reg [31:0] gpr [31:0];
-    assign out_rs=(rs==0)?8'h00000000:gpr[rs];
-    assign out_rt=(rt==0)?8'h00000000:gpr[rt];
+    
+    always@(*) begin
+        out_rs<=gpr[rs];
+        out_rt<=gpr[rt];
+    end
     //assign dst=(RegDst=='b0)?rt:rd;
     
-    always@(posedge clk)
-        if(RegWr==1)
-            begin
-                gpr[dst]=in_data;
-            end
+    always@(*) begin
+        if(RegWr=='b1)  begin
+            gpr[dst]<=in_data;
+        end
+    end
         
 endmodule

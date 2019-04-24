@@ -9,9 +9,8 @@ module dm_4k(addr,din,we,clk,dout);
     
     assign dout=dm[addr];
     
-    always@(posedge clk)
-        if(we)
-            begin
-                dm[addr]<=din;
-            end
+    always@(*)
+        if(we=='b1) begin
+            dm[addr]<=din;
+        end
 endmodule

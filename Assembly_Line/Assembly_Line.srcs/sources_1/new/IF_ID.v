@@ -9,8 +9,12 @@ module IF_ID(clk,rst,if_pc,if_instr,pc_id,instr_id);
     output reg[31:0] pc_id;
     output reg[31:0] instr_id;
     
+    initial begin
+        instr_id<=0;
+    end
+    
     always@(posedge clk)
-        if(rst==1)
+        if(rst=='b1)
             begin
                 pc_id<='h00000000;
                 instr_id<='h00000000;
