@@ -1,185 +1,182 @@
-`timescale 1ns/1ns
-module mips(clk,rst);
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 04/08/2019 07:20:18 AM
+// Design Name: 
+// Module Name: mips
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
 
-    //**********************global wire**********************//
-    input clk;
-    input rst;
-    //**********************global wire**********************//
+`include "defines.vh"
+module mips(
+    input wire clock,
+    input wire reset
+    );
     
-    //**********************fetch wire***********************//
-    wire [31:0] PCPlus4F;
-    wire [31:0] InstrF;
-    wire [31:0] PCF;
-    wire [31:0] nPCF;
-    //**********************fetch wire***********************//
+        //  wires
+    wire [`PCSIZE] PCPlus4F;
+    wire [`PCSIZE] PCBranchD;
+    wire [`PCSIZE] PCF;
+    wire [`INSTRSIZE] InstrI;
+    wire StallF;
     
-    //**********************decode wire**********************//
-    wire [31:0] PCPlus4D;
-    wire [31:0] InstrD;
-    wire [4:0] RsD;
-    wire [4:0] RtD;
-    wire [4:0] RdD;
-    wire RegWriteD;//register write enable
-    wire MemtoRegD;//register write with data from memory
-    wire MemWriteD;//memory write enable
-    wire [2:0] ALUControlD;//control alu operator: 'b00 for add, 'b01 for logic_or
-    wire ALUSrcD;//alu source:'b0 for reg_rt_data, 'b1 for extended_16bit_immediate
-    wire RegDstD;//destination of register write: 'b0 for rt, 'b1 for rd
-    wire BranchD;//instruction beq signal, Branch&Zero=>choose source of PC
-    wire [31:0] RD1;//register data read from rs
-    wire [31:0] RD2;//register data read from rt
-    wire [31:0] SignImmD;//extended data from 16 bits immediate number
-        
-    assign RsD=InstrD[25:21];
-    assign RtD=InstrD[20:16];
-    assign RdD=InstrD[15:11];
-    //**********************decode wire**********************//
+    wire StallD;
+    wire PCSrcD;
+    wire [`INSTRSIZE]InstrD;
+    wire [`PCSIZE] PCPlus4D;
     
-    //**********************execute wire*********************//
-    wire [4:0] RsE;
-    wire [4:0] RtE;
-    wire [4:0] RdE;
+    wire[`R_SIZE] rs;
+    wire[`R_SIZE] rt;
+    wire[`R_SIZE] rd;
+    wire[`IMI_SIZE] im;
+    wire[`OP_SIZE] opcode;
+    wire[`R_SIZE] funccode;
+
+    wire RegWriteD;
+    wire MemtoRegD;
+    wire MemWriteD;
+    wire [`ALUCONTROL_SIZE] ALUControlD;
+    wire ALUSrcD;
+    wire RegDstD;
+    wire BranchD;
+    
+    wire RegWriteW;                 // 
+    
+  //  wire[`DATALENGTH] WD3;          //
+   
+    wire[`DATALENGTH] RD1;          //
+    wire[`DATALENGTH] RD2;          //
+    
+    wire ForwardAD;                  //
+    wire ForwardBD;                 //
+    wire [`ADDRLENGTH]ALUOutM;      //
+    wire[`DATALENGTH] RD1_out;      //
+    wire[`DATALENGTH] RD2_out;      //
+
+    wire[`DATALENGTH] SignImmD;     //
+    
+    wire[`DATALENGTH] SignImmD_shift2; //
+    
+    wire FlushE;            //
     wire RegWriteE;
     wire MemtoRegE;
     wire MemWriteE;
-    wire [2:0] ALUControlE;
+    wire[`ALUCONTROL_SIZE] ALUControlE;
     wire ALUSrcE;
     wire RegDstE;
-    wire BranchE;
-    wire [31:0] RD1E;
-    wire [31:0] RD2E;
-    wire [31:0] SignImmE;
-    wire [31:0] PCPlus4E;
-    wire [31:0] SrcAE;//first source data of alu
-    wire [31:0] SrcBE;//second source data of alu
-    wire [4:0] WriteRegE;
-    wire [31:0] WriteDataE;
-    wire [31:0] ALUOutE;//output of alu
-    wire ZeroE;//if first source of alu equals to second one
-    wire [31:0] SignImm_2E;//extended immediately after moving two spaces to the left
-    wire [31:0] PCBranchE;
-    //**********************execute wire*********************//
+    wire [`DATALENGTH]RD1E;
+    wire [`DATALENGTH]RD2E;
+    wire [`R_SIZE]RsE;
+    wire [`R_SIZE]RtE;
+    wire [`R_SIZE]RdE;
+    wire [`DATALENGTH]SignImmE;
     
-    //**********************memory wire**********************//
-    wire [31:0] PCBranchM;
-    wire PCSrcM;
-    wire [31:0] ALUOutM;
+    wire [`R_SIZE] WriteRegE;       //
+    
+    wire[1:0] ForwardAE;
+    wire[`DATALENGTH] ResultW;
+    wire [`DATALENGTH] SrcAE;
+    
+    wire [`DATALENGTH] WriteDataE;
+    wire [`DATALENGTH] SrcBE;
+    
+    wire [1:0]ForwardBE;
+    
+    wire [`DATALENGTH] ALUOutE;
+    
     wire RegWriteM;
     wire MemtoRegM;
     wire MemWriteM;
-    wire BranchM;
-    wire ZeroM;
-    wire [31:0] WriteDataM;
-    wire [4:0] WriteRegM;
-    wire [31:0] ReadDataM;
-    //**********************memory wire**********************//
+   // wire [`DATALENGTH]ALUOutM;
+    wire [`DATALENGTH]WriteDataM;
+    wire [`R_SIZE] WriteRegM;
     
-    //*********************writeback wire********************//
-    wire [4:0] WriteRegW;
-    wire [31:0] ResultW;
-    wire RegWriteW;
-    wire [31:0] ReadDataW;
+    wire [`DATALENGTH] ReadDataM;
+    
     wire MemtoRegW;
-    wire [31:0] ALUOutW;
-    //*********************writeback wire********************//
-
-    //*********************conflict wire*********************//
-    wire [1:0] ForwardAE;
-    wire [1:0] ForwardBE;
-    //*********************conflict wire*********************//
+    wire [`DATALENGTH] ReadDataW;
+    wire [`DATALENGTH] ALUOutW;
+    wire [`R_SIZE] WriteRegW;
+    /* below is part1 : get instructment*/
+    // get_pc
+    get_pc get_pc0(.clock(clock),.reset(reset),.StallF(StallF),.PCSrcD(PCSrcD),.PCPlus4F(PCPlus4F),.PCBranchD(PCBranchD),.PCF(PCF));
+    // PC_ALU
+    PC_ALU PC_ALU0(.PCF(PCF),.PCPlus4F(PCPlus4F));
+    // get_instr
+    get_instr get_instr0(.clock(clock),.reset(reset),.instr_addr(PCF),.InstrI(InstrI));
+    /* get instructment part is over */
     
-    //*********************fetch module**********************//
-    mux_32 PC_Src_mux(PCPlus4F,PCBranchM,PCSrcM,nPCF);//choose the source of PC with signal PCSrcM; 0 for PCPlus4F, 1 for PCBranchM;
+    // instr_decode
+    instr_decode instr_decode0(.clock(clock),.reset(reset),.StallD(StallD),.PCSrcD(PCSrcD),.InstrI(InstrI),.PCPlus4F(PCPlus4F),.InstrD(InstrD),.PCPlus4D(PCPlus4D));
     
-    pc U_pc(clk,rst,nPCF,PCF);
+    /* below is part2 : decode*/
+    //decode 
+    decode decode0(.clock(clock),.reset(reset),.InstrD(InstrD),.rs(rs),.rt(rt),.rd(rd),.im(im),.opcode(opcode),.funccode(funccode));
+    // control_unit
+    control_unit control_unit0(.clock(clock),.reset(reset),.opcode_in(opcode),.funccode_in(funccode),.RegWriteD(RegWriteD),.MemtoRegD(MemtoRegD),.MemWriteD(MemWriteD),.ALUControlD(ALUControlD),.ALUSrcD(ALUSrcD),.RegDstD(RegDstD),.BranchD(BranchD));
+    // regfile
+    regfile regfile0(.clock(clock),.reset(reset),.RegWriteW(RegWriteW),.A1(rs),.A2(rt),.A3(WriteRegW),.WD3(ResultW),.RD1(RD1),.RD2(RD2));
+    // get_PCSrcD
+    get_PCSrcD get_PCSrcD0(.reset(reset),.ForwardAD(ForwardAD),.ForwardBD(ForwardBD),.RD1(RD1),.RD2(RD2),.ALUOutM(ALUOutM),.BranchD(BranchD),.RD1_out(RD1_out),.RD2_out(RD2_out),.PCSrcD(PCSrcD));
+    // sig_extend
+    sig_extend sig_extend0(.clock(clock),.reset(reset),.im(im),.SignImmD(SignImmD));
+    // shift_unit
+    shift_unit shift_unit0(.clock(clock),.reset(reset),.SignImmD(SignImmD),.SignImmD_shift2(SignImmD_shift2));
+    // get_PCBranchD
+    get_PCBranchD get_PCBranchD0(.clock(clock),.reset(reset),.SignImmD_shift2(SignImmD_shift2),.PCPlus4D(PCPlus4D),.PCBranchD(PCBranchD));
+    /* decode part is over*/
     
-    im_4k U_im_4k(PCF[11:2],InstrF);
+    // decode_exe
+    decode_exe decode_exe0(.clock(clock),.reset(reset),.RegWriteD(RegWriteD),.MemtoRegD(MemtoRegD),.MemWriteD(MemWriteD),.ALUControlD(ALUControlD),.ALUSrcD(ALUSrcD),.RegDstD(RegDstD),.FlushE(FlushE),.RD1D(RD1_out),.RD2D(RD2_out),.RsD(rs),.RtD(rt),.RdD(rd),.SignImmD(SignImmD),
+                            .RegWriteE(RegWriteE),.MemtoRegE(MemtoRegE),.MemWriteE(MemWriteE),.ALUControlE(ALUControlE),.ALUSrcE(ALUSrcE),.RegDstE(RegDstE),.RD1E(RD1E),.RD2E(RD2E),.RsE(RsE),.RtE(RtE),.RdE(RdE),.SignImmE(SignImmE));
     
-    alu PC_Add_alu(PCF,'h00000004,2'b00,PCPlus4F,);
+    /* below is part3 : exe*/
+    // get_WriteRegE
+    get_WriteRegE get_WriteRegE0(.clock(clock),.reset(reset),.RegDstE(RegDstE),.RtE(RtE),.RdE(RdE),.WriteRegE(WriteRegE));
+    // get_SrcAE
+    get_SrcAE get_SrcAE0(.clock(clock),.reset(reset),.ForwardAE(ForwardAE),.RD1E(RD1E),.ResultW(ResultW),.ALUOutM(ALUOutM),.SrcAE(SrcAE));
+    // get_SrcBE
+    get_SrcBE get_SrcBE0(.clock(clock),.reset(reset),.ALUSrcE(ALUSrcE),.WriteDataE(WriteDataE),.SignImmE(SignImmE),.SrcBE(SrcBE));
+    // get_WriteDataE
+    get_WriteDataE get_WriteDataE0(.clock(clock),.reset(reset),.ForwardBE(ForwardBE),.RD2E(RD2E),.ResultW(ResultW),.ALUOutM(ALUOutM),.WriteDataE(WriteDataE));
+    // SrcAE_SrcBE_ALU
+    SrcAE_SrcBE_ALU SrcAE_SrcBE_ALU0(.clock(clock),.reset(reset),.ALUControlE(ALUControlE),.SrcAE(SrcAE),.SrcBE(SrcBE),.ALUOutE(ALUOutE));
+    /* exe part is over*/
     
-    IF_ID U_IF_ID(clk,rst,PCPlus4F,InstrF,PCPlus4D,InstrD);//a set of registers that transfer data from fetch period to decode period
-    //*********************fetch module**********************//
+    // exe_accessMem
+    exe_accessMem exe_accessMem0(.clock(clock),.reset(reset),.RegWriteE(RegWriteE),.MemtoRegE(MemtoRegE),.MemWriteE(MemWriteE),.ALUOutE(ALUOutE),.WriteDataE(WriteDataE),.WriteRegE(WriteRegE),.RegWriteM(RegWriteM),.MemtoRegM(MemtoRegM),.MemWriteM(MemWriteM),.ALUOutM(ALUOutM),.WriteDataM(WriteDataM),.WriteRegM(WriteRegM));
     
-    //*********************decode module*********************//
-    gpr U_gpr(clk,RsD,RtD,WriteRegW,RegWriteW,ResultW,RD1,RD2);//registers
+    /* below is part4 : access memory*/
     
-    ext U_ext(InstrD[15:0],SignImmD);//extension module
+    // access_mem
+    access_mem access_mem0(.clock(clock),.reset(reset),.MemWriteM(MemWriteM),.addr(ALUOutM),.writeData(WriteDataM),.readData(ReadDataM));
+    /* access memory part is over*/
     
-    controller U_controller(clk,rst,InstrD[31:26],InstrD[5:0],RegWriteD,MemtoRegD,MemWriteD,ALUControlD,ALUSrcD,RegDstD,BranchD);
+    // accessMem_writeback
+    accessMem_writeback accessMem_writeback0(.clock(clock),.reset(reset),.RegWriteM(RegWriteM),.MemtoRegM(MemtoRegM),.ReadDataM(ReadDataM),.ALUOutM(ALUOutM),.WriteRegM(WriteRegM),.RegWriteW(RegWriteW),.MemtoRegW(MemtoRegW),.ReadDataW(ReadDataW),.ALUOutW(ALUOutW),.WriteRegW(WriteRegW));
+    /* below is part5 : writeback*/
     
-    ID_IE U_ID_IE(clk,rst,RegWriteD,MemtoRegD,MemWriteD,ALUControlD,ALUSrcD,RegDstD,BranchD,RD1,RD2,RsD,RtD,RdD,
-    SignImmD,PCPlus4D,RegWriteE,MemtoRegE,MemWriteE,ALUControlE,ALUSrcE,RegDstE,BranchE,RD1E,RD2E,RsE,RtE,RdE,SignImmE,PCPlus4E);//a set of registers that transfer data from decode period to execute period
-    //*********************decode module*********************//
+    // get_ResultW
+    get_ResultW get_ResultW0(.clock(clock),.reset(reset),.MemtoRegW(MemtoRegW),.ReadDataW(ReadDataW),.ALUOutW(ALUOutW),.ResultW(ResultW));
+    /* writeback part is over*/
     
-    //*********************execute module********************//
-    mux_5 Write_Reg_mux(clk,rst,RtE,RdE,RegDstE,WriteRegE);//choose reg to write
     
-    dmux_32 Alu_SrcA_mux(RD1E,ResultW,ALUOutM,,ForwardAE,SrcAE);//choose first source of alu: 'b00 for rs, 'b01 for data from memory period(two periods apart), 'b10 for data from alu period(one period apart); controlled by conflict_control module
+    /* below is conflict part*/
     
-    dmux_32 Alu_WriteData_mux(RD2E,ResultW,ALUOutM,,ForwardBE,WriteDataE);//choose possible second source of alu like Alu_SrcA_mux, output is also been used as data to write memory(sw)
-    
-    mux_32 Alu_SrcB_mux(WriteDataE,SignImmE,ALUSrcE,SrcBE);//choose second source of alu, 'b0 for rt/redirection data, 'b1 for extended 16 bits immediately
-    
-    alu U_alu(SrcAE,SrcBE,ALUControlE,ALUOutE,ZeroE);
-    
-    left_2 PC_Src_left_2(SignImmE,SignImm_2E);//make the 16 bits immediately two places to the left 
-    
-    alu PC_Branch_alu(SignImm_2E,PCPlus4E,2'b00,PCBranchE);
-    
-    IE_IM U_IE_IM(clk,rst,RegWriteE,MemtoRegE,MemWriteE,BranchE,ZeroE,ALUOutE,WriteDataE,WriteRegE,PCBranchE,
-    RegWriteM,MemtoRegM,MemWriteM,BranchM,ZeroM,ALUOutM,WriteDataM,WriteRegM,PCBranchM);//execute period to memory period
-    //*********************execute module********************//
-    
-    //*********************memory module*********************//
-    assign PCSrcM=(BranchM&ZeroM);
-    
-    dm_4k U_dm_4k(ALUOutM,WriteDataM,MemWriteM,clk,ReadDataM);//data memory
-    
-    IM_IW U_IM_IW(clk,rst,RegWriteM,MemtoRegM,ReadDataM,ALUOutM,WriteRegM,
-    RegWriteW,MemtoRegW,ReadDataW,ALUOutW,WriteRegW);//memory period to writeback period
-    //*********************memory module*********************//
-    
-    //********************writeback module*******************//
-    mux_32 Result_Src_mux(ALUOutW,ReadDataW,MemtoRegW,ResultW);//choose data from memory or alu
-    //********************writeback module*******************//   
-    
-    //********************conflict module********************//
-    conflict_control U_conflict_control(clk,rst,RsE,RtE,WriteRegM,WriteRegW,RegWriteM,RegWriteW,ForwardAE,ForwardBE);//deal with data conflict
-    //********************conflict module********************//     
-        
-    //module im_4k(addr,dout);
-    
-    //module dm_4k(addr,din,we,clk,dout);
-    
-    //module gpr(clk,rs,rt,dst,RegWr,in_data,out_rs,out_rt);
-    
-    //module controller(clk,rst,op,funct,RegWrite,MemtoReg,MemWrite,ALUControl,ALUSrc,RegDst,Branch);
-    
-    //module pc(clk,rst,npc,pc);
-    
-    //module npc(imm_16,imm_26,pc,npc,NPCSel);
-    
-    //module mux(in1,in2,mux_sel,out);//mux_sel='b0 for in1,mux_sel='b1 for in2
-    
-    //module dmux_32(in1,in2,in3,in4,mux_sel,out);//mux_sel='b00 for in1, mux_sel='b01 for in2, mux_sel='b10 for in3, mux_sel='b11 for in4
-    
-    //module alu(in_data1,in_data2,ALUctr,out_data,beqout);
-    
-    //module ext(in_data,out_data);
-    
-    //module IF_ID(clk,rst,if_pc,if_instr,id_pc,id_instr);
-    
-    //module ID_IE(clk,rst,id_RegWrite,id_MemtoReg,id_MemWrite,id_ALUControl,id_ALUSrc,id_RegDst,id_Branch,
-    //id_RD1,id_RD2,id_Rs,id_Rt,id_Rd,id_SignImm,id_PCPlus4,ie_RegWrite,ie_MemtoReg,ie_MemWrite,
-    //ie_ALUControl,ie_ALUSrc,ie_RegDst,ie_Branch,ie_RD1,ie_RD2,ie_Rs,ie_Rt,ie_Rd,ie_SignImm,ie_PCPlus4);
-    
-    //module IE_IM(clk,rst,ie_RegWrite,ie_MemtoReg,ie_MemWrite,ie_Branch,ie_Zero,ie_ALUOut,ie_WriteData,ie_WriteReg,ie_PCBranch,
-    //RegWrite_im,MemtoReg_im,MemWrite_im,Branch_im,Zero_im,ALUOut_im,WriteData_im,WriteReg_im,PCBranch_im);
-    
-    //module left_2(in,out);
-    
-    //module IM_IW(clk,rst,im_RegWrite,im_MemtoReg,im_ReadData,im_ALUOut,im_WriteReg,
-    //RegWrite_iw,MemtoReg_iw,ReadData_iw,ALUOut_iw,WriteReg_iw);
-    
-    //module conflict_control(clk,rst,cc_RsE,cc_RtE,cc_WriteRegM,cc_WriteRegW,cc_RegWriteM,cc_RegWriteW,cc_ForwardAE,cc_ForwardBE);
+    // hazard unit
+    hazard_unit hazard_unit0(.clock(clock),.reset(reset),.RegWriteW(RegWriteW),.RegWriteM(RegWriteM),.MemtoRegM(MemtoRegM),.RegWriteE(RegWriteE),.MemtoRegE(MemtoRegE),.BranchD(BranchD),.WriteRegW(WriteRegW),.WriteRegM(WriteRegM),.WriteRegE(WriteRegE),.RsE(RsE),.RtE(RtE),.RsD(rs),.RtD(rt),
+                                .ForwardAE(ForwardAE),.ForwardBE(ForwardBE),.ForwardAD(ForwardAD),.ForwardBD(ForwardBD),.FlushE(FlushE),.StallD(StallD),.StallF(StallF));
+    /* confict part is over*/
 endmodule
