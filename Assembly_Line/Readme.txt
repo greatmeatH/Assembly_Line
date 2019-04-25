@@ -1,9 +1,44 @@
-完成fetch取值部分，完成github的ssh方式push，花费2小时
+架构说明：
 
-execute部分尚未完成，ALU与左移操作尚未完成，没有写入IE_IM模块
+- 目前是大端存储，疑问 : 改成小端存储需要改译码阶段吗？
+- 哈佛结构，指令在get_instr.v中读取，数据在access_mem中读取，里面测试数据需要自行修改
+- 目前只写了ori指令，我看了五个阶段的输出波形都是正常的，但是测试可能不严格，或许会出错。
 
-完成control模块，原设计没有考虑到J指令，后续工作需要修改体系扩展指令格式
+mips.v : 顶层模块
+defines.vh ： 一些定义的宏
 
-完成conflict_control模块，对于verilog的选择分支语句尚不熟悉，后续工作需要进一步学习，流水线设计告一段落尚待测试
+图片序号 -> 模块名(.v)
+----------
+- 取指阶段
+1. get_pc
+2. get_instr
+3. PC_ALU
+- 取指->译码过渡
+4. instr_decode
+- 译码阶段
+5. decode
+6. control_unit
+7. regfile
+8. sig_extend
+9. shift_unit
+10. get_PCBranchD
+11. get_PCSrcD
+- 译码->执行过渡
+12. decode_exe
+- 执行阶段
+13. get_SrcAE
+14. get_WriteDataE
+15. get_SrcBE
+16. SrcAE_SrcBE_ALU
+17. get_WriteRegE
+- 执行->访存过渡
+18. exe_accessMem
+- 访存阶段
+19. access_mem
+- 访存->回写过渡
+20. accessMem_writeback
+- 回写阶段
+21. get_ResultW
+- 冲突处理模块
+22. hazard_unit
 
-完成重定向数据冲突的测试，简单使用三条连续add指令测试通过，准备进入阻塞冲突处理模块的编写（4.24）
