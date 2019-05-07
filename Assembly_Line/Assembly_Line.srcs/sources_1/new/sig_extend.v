@@ -5,6 +5,8 @@ module sig_extend(
     input wire clock,
     input wire reset,
     
+    // control signal
+    input [`EXTENDSIGNAL_SIZE] SigExtendSignalD,
     // input 
     input wire[`IMI_SIZE] im,
     
@@ -14,14 +16,22 @@ module sig_extend(
    
    always @ (*) begin
         if(reset == `RESETABLE)begin
-        
-        end else if(im[15] == 1'b1) begin
-            SignImmD[31:16] <= 4'hffff;
-            SignImmD[15:0] <= im;
-        end else begin
-            SignImmD[31:16] <= 4'h0000;
-            SignImmD[15:0] <= im;
-        end
+            
+        end else if(SigExtendSignalD == 2'b01) begin
+            if(im[15] == 1'b1) begin
+                SignImmD[31:16] <= 4'hffff;
+                SignImmD[15:0] <= im;
+            end else begin
+                SignImmD[31:16] <= 4'h0000;
+                SignImmD[15:0] <= im;
+            end
+           end else if(SigExtendSignalD == 2'b00) begin
+                SignImmD[31:16] <= 4'h0000;
+                SignImmD[15:0] <= im;
+           end else if(SigExtendSignalD == 2'b10) begin
+                SignImmD[31:16]<=im;
+                SignImmD[15:0]<=4'h0000;
+           end
    end
    
 endmodule

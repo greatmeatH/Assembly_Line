@@ -12,14 +12,14 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="830000001fs"></ZoomEndTime>
-      <Cursor1Time time="50000000fs"></Cursor1Time>
+      <ZoomEndTime time="237539018fs"></ZoomEndTime>
+      <Cursor1Time time="153143000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="126"></NameColumnWidth>
-      <ValueColumnWidth column_width="80"></ValueColumnWidth>
+      <NameColumnWidth column_width="120"></NameColumnWidth>
+      <ValueColumnWidth column_width="66"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="6" />
+   <WVObjectSize size="14" />
    <wvobject type="logic" fp_name="/testbench/CLOCK_50">
       <obj_property name="ElementShortName">CLOCK_50</obj_property>
       <obj_property name="ObjectShortName">CLOCK_50</obj_property>
@@ -27,10 +27,6 @@
    <wvobject type="logic" fp_name="/testbench/reset">
       <obj_property name="ElementShortName">reset</obj_property>
       <obj_property name="ObjectShortName">reset</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/testbench/mips0/regfile0/regs[6]">
-      <obj_property name="ElementShortName">[6][4:0]</obj_property>
-      <obj_property name="ObjectShortName">[6][4:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/testbench/mips0/SrcAE">
       <obj_property name="ElementShortName">SrcAE[31:0]</obj_property>
@@ -43,5 +39,41 @@
    <wvobject type="array" fp_name="/testbench/mips0/ALUOutE">
       <obj_property name="ElementShortName">ALUOutE[31:0]</obj_property>
       <obj_property name="ObjectShortName">ALUOutE[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/mips0/InstrI">
+      <obj_property name="ElementShortName">InstrI[31:0]</obj_property>
+      <obj_property name="ObjectShortName">InstrI[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/mips0/InstrD">
+      <obj_property name="ElementShortName">InstrD[31:0]</obj_property>
+      <obj_property name="ObjectShortName">InstrD[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/mips0/RD1">
+      <obj_property name="ElementShortName">RD1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">RD1[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/mips0/RD2">
+      <obj_property name="ElementShortName">RD2[31:0]</obj_property>
+      <obj_property name="ObjectShortName">RD2[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/mips0/SignImmD">
+      <obj_property name="ElementShortName">SignImmD[31:0]</obj_property>
+      <obj_property name="ObjectShortName">SignImmD[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/mips0/regfile0/A1">
+      <obj_property name="ElementShortName">A1[4:0]</obj_property>
+      <obj_property name="ObjectShortName">A1[4:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/mips0/regfile0/A2">
+      <obj_property name="ElementShortName">A2[4:0]</obj_property>
+      <obj_property name="ObjectShortName">A2[4:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/mips0/regfile0/RD1">
+      <obj_property name="ElementShortName">RD1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">RD1[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/testbench/mips0/regfile0/RD2">
+      <obj_property name="ElementShortName">RD2[31:0]</obj_property>
+      <obj_property name="ObjectShortName">RD2[31:0]</obj_property>
    </wvobject>
 </wave_config>

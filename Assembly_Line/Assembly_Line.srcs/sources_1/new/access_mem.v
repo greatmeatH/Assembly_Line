@@ -19,7 +19,7 @@ module access_mem(
     reg[`DATALENGTH]  data_mem[0:`DATA_MEM_NUM-1];
     initial $readmemh ("/home/lihang/GNUworks/data_rom.data",data_mem);
     
-   always @ (posedge clock) begin
+   always @ (negedge clock) begin
         if(reset != `RESETABLE && MemWriteM == 1'b1)begin
             data_mem[addr[16:0]] <= writeData; //  jia she data rom 17 gen di zhi xian
         end 

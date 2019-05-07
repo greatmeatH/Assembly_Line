@@ -31,6 +31,7 @@ module decode_exe(
     input [`ALUCONTROL_SIZE]ALUControlD,
     input ALUSrcD,
     input RegDstD,
+    input ShiftSrcD,    //hjw
     
     input FlushE,           // for conflict , to be done
     // input
@@ -49,6 +50,7 @@ module decode_exe(
     output reg[`ALUCONTROL_SIZE] ALUControlE,
     output reg ALUSrcE,
     output reg RegDstE,
+    output reg ShiftSrcE,   //hjw
     
     output reg [`DATALENGTH]RD1E,
     output reg [`DATALENGTH]RD2E,
@@ -67,6 +69,7 @@ module decode_exe(
             ALUSrcE <= 1'b0;
             RegDstE <= 1'b0;
             ALUControlE <= 3'b000;
+            ShiftSrcE <= 'b0;   //hjw
             RD1E <= `ZEROWORD;
             RD2E <= `ZEROWORD;
             SignImmE <= `ZEROWORD;
@@ -81,6 +84,7 @@ module decode_exe(
             ALUSrcE <= ALUSrcD;
             RegDstE <= RegDstD;
             ALUControlE <= ALUControlD;
+            ShiftSrcE <= ShiftSrcD;     //hjw
             RD1E <= RD1D;
             RD2E <= RD2D;
             SignImmE <= SignImmD;

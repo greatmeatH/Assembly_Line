@@ -1,0 +1,6 @@
+2019.4.27白天
+实现逻辑及移位指令，增加get_ShiftSrc模块选择来自rd或sa的位移量。
+修改ALUControl信号位宽为5，增加多个宏定义，增加ALU功能and,xor,nor,sll,sra,srl等
+修改Extend信号位宽为2，增加多个宏定义，增加右侧0扩展
+
+

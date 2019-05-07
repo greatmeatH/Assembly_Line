@@ -12,11 +12,12 @@ module decode(
     output reg[`R_SIZE] rs,
     output reg[`R_SIZE] rt,
     output reg[`R_SIZE] rd,
+    output reg[`R_SIZE] sa,
     
     output reg[`IMI_SIZE] im,
     
     output reg[`OP_SIZE] opcode,
-    output reg[`R_SIZE] funccode
+    output reg[`OP_SIZE] funccode
     );
     
     
@@ -27,6 +28,7 @@ module decode(
             rs <= InstrD[25:21];
             rt <= InstrD[20:16];
             rd <= InstrD[15:11];
+            sa <= InstrD[10:6];
             im <= InstrD[15:0];
             funccode <= InstrD[5:0];
         end else begin 
@@ -34,6 +36,7 @@ module decode(
             rs <= 5'b0;
             rt <= 5'b0;
             rd <= 5'b0;
+            sa <= 5'b0;
             im <= 15'b0;
             funccode <= 6'b0;
         end

@@ -2,12 +2,14 @@
 # Webtalk v2018.1 (64-bit)
 # SW Build 2188600 on Wed Apr  4 18:39:19 MDT 2018
 # IP Build 2185939 on Wed Apr  4 20:55:05 MDT 2018
-# Start of session at: Wed Apr 24 05:36:49 2019
-# Process ID: 118686
+# Start of session at: Tue May  7 03:13:52 2019
+# Process ID: 33910
 # Current directory: /home/hejunwen/Assembly_Line/Assembly_Line/Assembly_Line.sim/sim_1/behav/xsim
 # Command line: wbtcv -mode batch -source /home/hejunwen/Assembly_Line/Assembly_Line/Assembly_Line.sim/sim_1/behav/xsim/xsim.dir/testbench_behav/webtalk/xsim_webtalk.tcl -notrace
 # Log file: /home/hejunwen/Assembly_Line/Assembly_Line/Assembly_Line.sim/sim_1/behav/xsim/webtalk.log
 # Journal file: /home/hejunwen/Assembly_Line/Assembly_Line/Assembly_Line.sim/sim_1/behav/xsim/webtalk.jou
 #-----------------------------------------------------------
 source /home/hejunwen/Assembly_Line/Assembly_Line/Assembly_Line.sim/sim_1/behav/xsim/xsim.dir/testbench_behav/webtalk/xsim_webtalk.tcl -notrace
-INFO: [Common 17-206] Exiting Webtalk at Wed Apr 24 05:36:51 2019...
+INFO: [Common 17-186] '/home/hejunwen/Assembly_Line/Assembly_Line/Assembly_Line.sim/sim_1/behav/xsim/xsim.dir/testbench_behav/webtalk/usage_statistics_ext_xsim.xml' has been successfully sent to Xilinx on Tue May  7 03:13:58 2019. For additional details about this file, please refer to the WebTalk help file at /home/hejunwen/Vivado/Vivado/2018.1/doc/webtalk_introduction.html.
+webtalk_transmit: Time (s): cpu = 00:00:00.46 ; elapsed = 00:00:07 . Memory (MB): peak = 300.004 ; gain = 0.000 ; free physical = 145 ; free virtual = 5655
+INFO: [Common 17-206] Exiting Webtalk at Tue May  7 03:13:58 2019...

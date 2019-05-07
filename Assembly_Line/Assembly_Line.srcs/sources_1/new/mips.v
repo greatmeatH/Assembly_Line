@@ -41,9 +41,11 @@ module mips(
     wire[`R_SIZE] rt;
     wire[`R_SIZE] rd;
     wire[`IMI_SIZE] im;
+    wire[`R_SIZE] sa;   //hjw
     wire[`OP_SIZE] opcode;
-    wire[`R_SIZE] funccode;
+    wire[`OP_SIZE] funccode;
 
+    wire [`EXTENDSIGNAL_SIZE] SigExtendSignalD;
     wire RegWriteD;
     wire MemtoRegD;
     wire MemWriteD;
@@ -51,6 +53,7 @@ module mips(
     wire ALUSrcD;
     wire RegDstD;
     wire BranchD;
+    wire ShiftSrcD; //hjw
     
     wire RegWriteW;                 // 
     
@@ -76,6 +79,7 @@ module mips(
     wire[`ALUCONTROL_SIZE] ALUControlE;
     wire ALUSrcE;
     wire RegDstE;
+    wire ShiftSrcE; //hjw
     wire [`DATALENGTH]RD1E;
     wire [`DATALENGTH]RD2E;
     wire [`R_SIZE]RsE;
@@ -91,6 +95,8 @@ module mips(
     
     wire [`DATALENGTH] WriteDataE;
     wire [`DATALENGTH] SrcBE;
+    
+    wire[`R_SIZE] ShiftsE;  //hjw
     
     wire [1:0]ForwardBE;
     
@@ -123,15 +129,15 @@ module mips(
     
     /* below is part2 : decode*/
     //decode 
-    decode decode0(.clock(clock),.reset(reset),.InstrD(InstrD),.rs(rs),.rt(rt),.rd(rd),.im(im),.opcode(opcode),.funccode(funccode));
+    decode decode0(.clock(clock),.reset(reset),.InstrD(InstrD),.rs(rs),.rt(rt),.rd(rd),.sa(sa),.im(im),.opcode(opcode),.funccode(funccode));
     // control_unit
-    control_unit control_unit0(.clock(clock),.reset(reset),.opcode_in(opcode),.funccode_in(funccode),.RegWriteD(RegWriteD),.MemtoRegD(MemtoRegD),.MemWriteD(MemWriteD),.ALUControlD(ALUControlD),.ALUSrcD(ALUSrcD),.RegDstD(RegDstD),.BranchD(BranchD));
+    control_unit control_unit0(.clock(clock),.reset(reset),.opcode_in(opcode),.funccode_in(funccode),.SigExtendSignalD(SigExtendSignalD),.RegWriteD(RegWriteD),.MemtoRegD(MemtoRegD),.MemWriteD(MemWriteD),.ALUControlD(ALUControlD),.ALUSrcD(ALUSrcD),.RegDstD(RegDstD),.BranchD(BranchD),.ShiftSrcD(ShiftSrcD));  //hjw
     // regfile
     regfile regfile0(.clock(clock),.reset(reset),.RegWriteW(RegWriteW),.A1(rs),.A2(rt),.A3(WriteRegW),.WD3(ResultW),.RD1(RD1),.RD2(RD2));
     // get_PCSrcD
     get_PCSrcD get_PCSrcD0(.reset(reset),.ForwardAD(ForwardAD),.ForwardBD(ForwardBD),.RD1(RD1),.RD2(RD2),.ALUOutM(ALUOutM),.BranchD(BranchD),.RD1_out(RD1_out),.RD2_out(RD2_out),.PCSrcD(PCSrcD));
     // sig_extend
-    sig_extend sig_extend0(.clock(clock),.reset(reset),.im(im),.SignImmD(SignImmD));
+    sig_extend sig_extend0(.clock(clock),.reset(reset),.SigExtendSignalD(SigExtendSignalD),.im(im),.SignImmD(SignImmD));
     // shift_unit
     shift_unit shift_unit0(.clock(clock),.reset(reset),.SignImmD(SignImmD),.SignImmD_shift2(SignImmD_shift2));
     // get_PCBranchD
@@ -139,8 +145,8 @@ module mips(
     /* decode part is over*/
     
     // decode_exe
-    decode_exe decode_exe0(.clock(clock),.reset(reset),.RegWriteD(RegWriteD),.MemtoRegD(MemtoRegD),.MemWriteD(MemWriteD),.ALUControlD(ALUControlD),.ALUSrcD(ALUSrcD),.RegDstD(RegDstD),.FlushE(FlushE),.RD1D(RD1_out),.RD2D(RD2_out),.RsD(rs),.RtD(rt),.RdD(rd),.SignImmD(SignImmD),
-                            .RegWriteE(RegWriteE),.MemtoRegE(MemtoRegE),.MemWriteE(MemWriteE),.ALUControlE(ALUControlE),.ALUSrcE(ALUSrcE),.RegDstE(RegDstE),.RD1E(RD1E),.RD2E(RD2E),.RsE(RsE),.RtE(RtE),.RdE(RdE),.SignImmE(SignImmE));
+    decode_exe decode_exe0(.clock(clock),.reset(reset),.RegWriteD(RegWriteD),.MemtoRegD(MemtoRegD),.MemWriteD(MemWriteD),.ALUControlD(ALUControlD),.ALUSrcD(ALUSrcD),.RegDstD(RegDstD),.ShiftSrcD(ShiftSrcD),.FlushE(FlushE),.RD1D(RD1_out),.RD2D(RD2_out),.RsD(rs),.RtD(rt),.RdD(rd),.SignImmD(SignImmD),
+                            .RegWriteE(RegWriteE),.MemtoRegE(MemtoRegE),.MemWriteE(MemWriteE),.ALUControlE(ALUControlE),.ALUSrcE(ALUSrcE),.RegDstE(RegDstE),.ShiftSrcE(ShiftSrcE),.RD1E(RD1E),.RD2E(RD2E),.RsE(RsE),.RtE(RtE),.RdE(RdE),.SignImmE(SignImmE));   //hjw
     
     /* below is part3 : exe*/
     // get_WriteRegE
@@ -149,10 +155,12 @@ module mips(
     get_SrcAE get_SrcAE0(.clock(clock),.reset(reset),.ForwardAE(ForwardAE),.RD1E(RD1E),.ResultW(ResultW),.ALUOutM(ALUOutM),.SrcAE(SrcAE));
     // get_SrcBE
     get_SrcBE get_SrcBE0(.clock(clock),.reset(reset),.ALUSrcE(ALUSrcE),.WriteDataE(WriteDataE),.SignImmE(SignImmE),.SrcBE(SrcBE));
+    //get_ShiftSrc  //hjw
+    get_ShiftSrc get_ShiftSrc0(.clock(clock),.reset(reset),.ShiftSrcE(ShiftSrcE),.SrcAE(SrcAE),.SignImmE(SignImmE),.ShiftsE(ShiftsE));    //hjw
     // get_WriteDataE
     get_WriteDataE get_WriteDataE0(.clock(clock),.reset(reset),.ForwardBE(ForwardBE),.RD2E(RD2E),.ResultW(ResultW),.ALUOutM(ALUOutM),.WriteDataE(WriteDataE));
     // SrcAE_SrcBE_ALU
-    SrcAE_SrcBE_ALU SrcAE_SrcBE_ALU0(.clock(clock),.reset(reset),.ALUControlE(ALUControlE),.SrcAE(SrcAE),.SrcBE(SrcBE),.ALUOutE(ALUOutE));
+    SrcAE_SrcBE_ALU SrcAE_SrcBE_ALU0(.clock(clock),.reset(reset),.ALUControlE(ALUControlE),.ShiftsE(ShiftsE),.SrcAE(SrcAE),.SrcBE(SrcBE),.ALUOutE(ALUOutE));
     /* exe part is over*/
     
     // exe_accessMem
