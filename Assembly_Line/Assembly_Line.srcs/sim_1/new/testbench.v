@@ -31,7 +31,7 @@ end
 
 initial begin
     reset = 1'b1;
-    #80 reset = 1'b0;//at least 55
+    #100 reset = 1'b0;//at least 55
     #500 $stop;
 end
     mips mips0(.clock(CLOCK_50),.reset(reset));

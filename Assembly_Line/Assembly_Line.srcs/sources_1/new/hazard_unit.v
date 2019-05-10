@@ -35,6 +35,7 @@ module hazard_unit(
         input MemtoRegE,
         // from decode part
         input BranchD,
+        input HilotoRegE,           // 5.6 
    
    // input 
         //from writeback part
@@ -68,6 +69,8 @@ module hazard_unit(
     wire branchstall;
     assign branchstall = ((BranchD) && (RegWriteE) && ((WriteRegE == RsD) || (WriteRegE == RtD)))
                       || ((BranchD) && (MemtoRegM) && ((WriteRegM == RsD) || (WriteRegM == RtD)));
+   // wire hilostall;
+   // assign hilostall = (HilotoRegE) && (RegWriteE) && (WriteRegE == RsD);       // 5.6
     
     always@(*)begin
         if(reset == `RESETABLE)begin
@@ -96,7 +99,7 @@ module hazard_unit(
             end else begin
                 ForwardBE <= 2'b00;
             end
-            
+            // 5.6
             StallF <= (lwstall || branchstall);
             StallD <= (lwstall || branchstall);
             FlushE <= (lwstall || branchstall);

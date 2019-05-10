@@ -30,5 +30,5 @@ module shift_unit(
     output [`DATALENGTH] SignImmD_shift2
     );
     
-    assign SignImmD_shift2 = {SignImmD[31:2],2'b00};
+    assign SignImmD_shift2 = {SignImmD[29:0],2'b00};
 endmodule

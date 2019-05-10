@@ -31,7 +31,14 @@ module decode_exe(
     input [`ALUCONTROL_SIZE]ALUControlD,
     input ALUSrcD,
     input RegDstD,
-    input ShiftSrcD,    //hjw
+    input HiWriteD,
+    input LoWriteD,
+    input HiReadD,
+    input LoReadD,
+    input HilotoRegD,
+	input ShiftSrcD,	//hjw
+    
+    input PCtoRegD,             //  ** added for PC
     
     input FlushE,           // for conflict , to be done
     // input
@@ -43,6 +50,8 @@ module decode_exe(
     
     input [`DATALENGTH]SignImmD,
     
+    input [`PCSIZE] PCPlus8D,          // **added for PC
+    
     // output
     output reg RegWriteE,
     output reg MemtoRegE,
@@ -50,7 +59,15 @@ module decode_exe(
     output reg[`ALUCONTROL_SIZE] ALUControlE,
     output reg ALUSrcE,
     output reg RegDstE,
-    output reg ShiftSrcE,   //hjw
+	output reg ShiftSrcE,   //hjw
+    output reg HiWriteE,
+    output reg LoWriteE,
+    output reg HiReadE,
+    output reg LoReadE,
+    output reg HilotoRegE,
+    
+    output reg PCtoRegE,
+    output reg [`PCSIZE] PCPlus8E,
     
     output reg [`DATALENGTH]RD1E,
     output reg [`DATALENGTH]RD2E,
@@ -62,20 +79,27 @@ module decode_exe(
     );
     
     always@(posedge clock)begin
-        if(reset == `RESETABLE)begin
+        if(reset == `RESETABLE || FlushE == 1'b1)begin
             RegWriteE <= 1'b0;
             MemtoRegE <= 1'b0;
             MemWriteE <= 1'b0;
             ALUSrcE <= 1'b0;
             RegDstE <= 1'b0;
             ALUControlE <= 3'b000;
-            ShiftSrcE <= 'b0;   //hjw
+			ShiftSrcE <= 'b0;   //hjw
             RD1E <= `ZEROWORD;
             RD2E <= `ZEROWORD;
             SignImmE <= `ZEROWORD;
             RsE <= 5'b00000;
             RtE <= 5'b00000;
             RdE <= 5'b00000;
+            HiWriteE <= 1'b0;
+            LoWriteE <= 1'b0;
+            HiReadE <= 1'b0;
+            LoReadE <= 1'b0;
+            HilotoRegE <= 1'b0;
+            PCtoRegE <= 1'b0;
+            PCPlus8E <= `ZEROWORD;
         end
         else begin
             RegWriteE <= RegWriteD;
@@ -84,13 +108,20 @@ module decode_exe(
             ALUSrcE <= ALUSrcD;
             RegDstE <= RegDstD;
             ALUControlE <= ALUControlD;
-            ShiftSrcE <= ShiftSrcD;     //hjw
+			ShiftSrcE <= ShiftSrcD;     //hjw
             RD1E <= RD1D;
             RD2E <= RD2D;
             SignImmE <= SignImmD;
             RsE <= RsD;
             RtE <= RtD;
             RdE <= RdD; 
+            HiWriteE <= HiWriteD;
+            LoWriteE <= LoWriteD;
+            HiReadE <= HiReadD;
+            LoReadE <= LoReadD;
+            HilotoRegE <= HilotoRegD;
+            PCtoRegE <= PCtoRegD;
+            PCPlus8E <= PCPlus8D;
         end
     end
 endmodule

@@ -2,12 +2,12 @@
 # Webtalk v2018.1 (64-bit)
 # SW Build 2188600 on Wed Apr  4 18:39:19 MDT 2018
 # IP Build 2185939 on Wed Apr  4 20:55:05 MDT 2018
-# Start of session at: Tue Apr 23 05:09:14 2019
-# Process ID: 106815
+# Start of session at: Thu May  9 19:27:33 2019
+# Process ID: 39495
 # Current directory: /home/hejunwen/Assembly_Line/Assembly_Line/Assembly_Line.sim/sim_1/behav/xsim
 # Command line: wbtcv -mode batch -source /home/hejunwen/Assembly_Line/Assembly_Line/Assembly_Line.sim/sim_1/behav/xsim/xsim.dir/testbench_behav/webtalk/xsim_webtalk.tcl -notrace
 # Log file: /home/hejunwen/Assembly_Line/Assembly_Line/Assembly_Line.sim/sim_1/behav/xsim/webtalk.log
 # Journal file: /home/hejunwen/Assembly_Line/Assembly_Line/Assembly_Line.sim/sim_1/behav/xsim/webtalk.jou
 #-----------------------------------------------------------
 source /home/hejunwen/Assembly_Line/Assembly_Line/Assembly_Line.sim/sim_1/behav/xsim/xsim.dir/testbench_behav/webtalk/xsim_webtalk.tcl -notrace
-INFO: [Common 17-206] Exiting Webtalk at Tue Apr 23 05:09:15 2019...
+INFO: [Common 17-206] Exiting Webtalk at Thu May  9 19:27:36 2019...

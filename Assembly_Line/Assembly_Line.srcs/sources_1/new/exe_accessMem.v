@@ -28,11 +28,24 @@ module exe_accessMem(
     input RegWriteE,
     input MemtoRegE,
     input MemWriteE,
+    input HiWriteE,
+    input LoWriteE,
+    input HiReadE,
+    input LoReadE,
+    input HilotoRegE,
+    
+    input PCtoRegE,         // ** added for PC
     
     // input
     input [`DATALENGTH]ALUOutE,
     input [`DATALENGTH]WriteDataE,
     input [`R_SIZE] WriteRegE,
+    
+
+    input [`DATALENGTH]write_hi_dataE,
+    input [`DATALENGTH]write_lo_dataE,
+    
+    input [`PCSIZE] PCPlus8E, // ** added for PC
     
     // output 
     output reg RegWriteM,
@@ -41,7 +54,20 @@ module exe_accessMem(
     
     output reg[`DATALENGTH]ALUOutM,
     output reg[`DATALENGTH]WriteDataM,
-    output reg[`R_SIZE] WriteRegM
+    output reg[`R_SIZE] WriteRegM,
+    
+    output reg HiWriteM,
+    output reg LoWriteM,
+    output reg HiReadM,
+    output reg LoReadM,
+    output reg HilotoRegM,
+     
+    output reg PCtoRegM,        // ** added for PC
+    output reg [`PCSIZE] PCPlus8M,// ** added for PC
+    
+    
+    output reg[`DATALENGTH] write_hi_dataM,
+    output reg[`DATALENGTH] write_lo_dataM
     );
     
     always @(posedge clock)begin
@@ -52,6 +78,15 @@ module exe_accessMem(
             ALUOutM <= `ZEROWORD;
             WriteDataM <= `ZEROWORD;
             WriteRegM <= 5'b00000;
+            HiWriteM <= 1'b0;
+            LoWriteM <= 1'b0;
+            HiReadM <= 1'b0;
+            LoReadM <= 1'b0;
+            HilotoRegM <= 1'b0;
+            write_hi_dataM <= `ZEROWORD;
+            write_lo_dataM <= `ZEROWORD;
+            PCtoRegM <= 1'b0;
+            PCPlus8M <= `ZEROWORD;
         end
         else begin
             RegWriteM <= RegWriteE;
@@ -60,6 +95,16 @@ module exe_accessMem(
             ALUOutM <= ALUOutE;
             WriteDataM <= WriteDataE;
             WriteRegM <= WriteRegE;
+
+            HiWriteM <= HiWriteE;
+            LoWriteM <= LoWriteE;
+            HiReadM <= HiReadE;
+            LoReadM <= LoReadE;
+            HilotoRegM <= HilotoRegE;
+            write_hi_dataM <= write_hi_dataE;
+            write_lo_dataM <= write_lo_dataE;
+            PCtoRegM <= PCtoRegE;
+            PCPlus8M <= PCPlus8E;
         end
     end
 endmodule

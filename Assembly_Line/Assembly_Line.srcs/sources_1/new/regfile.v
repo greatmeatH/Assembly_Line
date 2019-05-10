@@ -22,14 +22,15 @@ module regfile(
     // regs
     reg[`DATALENGTH] regs[0:`REGNUM-1];
     initial $readmemh ("/home/hejunwen/Assembly_Line/Assembly_Line/Assembly_Line.data/cal_data.txt",regs);
+
     // write , cost clock 
-    always @ (posedge clock) begin
+    always @ (negedge clock) begin
        if(reset == `RESETUNABLE && RegWriteW == `WRITEABLE) begin
             regs[A3] <= WD3;
        end
     end
     
-    always @(negedge clock)begin
+    always @(*)begin
         if(reset == `RESETABLE || A1 == 5'b00000)begin
             RD1 <= `ZEROWORD;
         end
@@ -38,7 +39,7 @@ module regfile(
         end
     end
     
-    always @(negedge clock)begin
+    always @(*)begin
         if(reset == `RESETABLE || A2 == 5'b00000)begin
             RD2 <= `ZEROWORD;
         end

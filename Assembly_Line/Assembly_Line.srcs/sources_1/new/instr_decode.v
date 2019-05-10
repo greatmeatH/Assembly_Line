@@ -40,8 +40,11 @@ module instr_decode(
     );
     
     always@(posedge clock)begin
-        if(reset == `RESETABLE)begin
+        if(reset == `RESETABLE || PCSrcD == 1'b1)begin
             InstrD <= `ZEROWORD;
+        end else if(StallD == 1'b1 )begin
+            InstrD <= InstrD;
+            PCPlus4D <= PCPlus4D;   
         end else begin
             InstrD <= InstrI;
             PCPlus4D <= PCPlus4F;

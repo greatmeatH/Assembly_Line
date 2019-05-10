@@ -25,10 +25,12 @@ module get_pc(
  
     
     always @ (posedge clock) begin
-        if (reset == `RESETABLE || StallF == 1'b1) begin 
+        if (reset == `RESETABLE) begin 
             PCF <= `ZEROWORD;
         end
-        else begin
+        else if(StallF == 1'b1) begin
+            PCF <= PCF;
+        end else begin
             PCF <= PC_;
         end
     end

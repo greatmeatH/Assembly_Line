@@ -25,18 +25,24 @@ module SrcAE_SrcBE_ALU(
     input reset,
     // control signal
     input [`ALUCONTROL_SIZE]ALUControlE,
-    input [`R_SIZE]ShiftsE, //hjw
+	input [`R_SIZE] ShiftsE,	//hjw
     
     // input
     input [`DATALENGTH] SrcAE,
     input [`DATALENGTH] SrcBE,
     
+
     output reg[`DATALENGTH]ALUOutE
+    
     
     );
     
-    wire [32:0] tmp;         // for tmp result
-    assign tmp = {SrcAE[31],SrcAE} + {SrcBE[31],SrcBE};     // to be done
+    wire [32:0] tmp_add;         // for tmp result
+    assign tmp_add = {SrcAE[31],SrcAE} + {SrcBE[31],SrcBE};     // to be done
+    
+    wire [32:0] tmp_sub;         // for tmp result
+    assign tmp_sub = {SrcAE[31],SrcAE} - {SrcBE[31],SrcBE};     // to be done
+    
     
     always@(*)begin
         if(reset == `RESETABLE)begin
@@ -49,13 +55,48 @@ module SrcAE_SrcBE_ALU(
                     ALUOutE <= SrcAE | SrcBE;
                 end
                 `ALU_ADD:begin
-                    // zan shi mei you kao lv li wai
                     ALUOutE <= SrcAE + SrcBE;
                 end
-                
+                `ALU_ADD_OVERFLOW:begin
+                    if(tmp_add[32] != tmp_add[31])begin
+                        ALUOutE <= `ZEROWORD;
+                        // li wai ~~~ there
+                    end else begin
+                        ALUOutE <= tmp_add[31:0];
+                    end
+
+                end
                 `ALU_SUB:begin
-                    // zan shi mei you kao lv li wai
                     ALUOutE <= SrcAE - SrcBE;
+                end
+                `ALU_SUB_OVERFLOW:begin
+                    if(tmp_sub[32] != tmp_sub[31])begin
+                        ALUOutE <= `ZEROWORD;
+                    end else begin
+                        ALUOutE <= tmp_sub[31:0];
+                    end
+
+                end
+                `ALU_SLT:begin
+                    // sig compare
+                    if(SrcAE[31] == 1'b1 && SrcBE[31] == 1'b0)begin
+                        ALUOutE <= 32'h00000001;
+                    end
+                    else if(SrcAE[31] == 1'b0 && SrcBE[31] == 1'b1)begin
+                        ALUOutE <= `ZEROWORD;
+                    end 
+                    else if(SrcAE - SrcBE < 0) begin
+                        ALUOutE <= 32'h00000001;
+                    end else begin
+                        ALUOutE <= `ZEROWORD;
+                    end
+                end
+                `ALU_SLTU:begin
+                    if({1'b0,SrcAE} < {1'b0,SrcBE})begin
+                        ALUOutE <= 32'h00000001;
+                    end else begin
+                        ALUOutE <= `ZEROWORD;
+                    end
                 end
                 `ALU_AND:begin  //hjw
                     ALUOutE <= SrcAE & SrcBE;
@@ -75,21 +116,7 @@ module SrcAE_SrcBE_ALU(
                 `ALU_SRL:begin  //hjw
                     ALUOutE <= SrcBE >> ShiftsE;
                 end
-                `ALU_SLT:begin
-                    // sig compare
-                    if(SrcAE[31] == 1'b1 && SrcBE[31] == 1'b0)begin
-                        ALUOutE <= 32'h00000001;
-                    end
-                    else if(SrcAE[31] == 1'b0 && SrcBE[31] == 1'b1)begin
-                        ALUOutE <= `ZEROWORD;
-                    end 
-                    else if(SrcAE - SrcBE < 0) begin
-                        ALUOutE <= 32'h00000001;
-                    end else begin
-                        ALUOutE <= `ZEROWORD;
-                    end
-                end
-                `ALU_SLEEP:begin    //hjw
+				`ALU_NONE:begin    //hjw
                     ALUOutE <= SrcBE;
                 end
                 default:begin
