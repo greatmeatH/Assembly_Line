@@ -37,6 +37,7 @@ module decode_exe(
     input LoReadD,
     input HilotoRegD,
 	input ShiftSrcD,	//hjw
+	input wire[`OP_SIZE] opcode_out,//for assess_mem
     
     input PCtoRegD,             //  ** added for PC
     
@@ -65,6 +66,7 @@ module decode_exe(
     output reg HiReadE,
     output reg LoReadE,
     output reg HilotoRegE,
+    output reg[`OP_SIZE] opcodeE,//for access_mem
     
     output reg PCtoRegE,
     output reg [`PCSIZE] PCPlus8E,
@@ -122,6 +124,7 @@ module decode_exe(
             HilotoRegE <= HilotoRegD;
             PCtoRegE <= PCtoRegD;
             PCPlus8E <= PCPlus8D;
+            opcodeE <= opcode_out; //for access_mem
         end
     end
 endmodule

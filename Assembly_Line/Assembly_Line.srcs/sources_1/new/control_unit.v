@@ -20,6 +20,7 @@ module control_unit(
     output reg RegDstD,
     output reg BranchD,
 	output reg ShiftSrcD,
+	output wire[`OP_SIZE] opcode_out,//for access_mem
     
     output reg[`CONTROL_EQUALD_SIZE] EqualDControl,     // added ** for fenzhi
     output reg PCtoRegD,                             // if PC needed to write to $31
@@ -39,7 +40,7 @@ module control_unit(
     
     // cal ALUControlD
 
-    
+    assign opcode_out = opcode_in;
     
     always @ (*) begin
         if(reset == 1'b0) begin
@@ -911,6 +912,160 @@ module control_unit(
                     J_Imi_ControlD <= 1'b0;
                     J_Rs_ControlD <= 1'b0;
                 end
+                
+                                    `OP_LB:begin
+                                    RegWriteD <= 1'b1;
+                                    MemtoRegD <= 1'b1;
+                                    MemWriteD <= 1'b0;
+                                    ALUControlD <= `ALU_ADD;
+                                    ALUSrcD <= 1'b1;
+                                    RegDstD <= 1'b0;
+                                    BranchD <= 1'b0;
+                                    SigExtendSignalD <= 2'b01;
+                                    ShiftSrcD <= 1'b0;
+                                    HiWriteD <= 1'b0;
+                                    LoWriteD <= 1'b0;
+                                    EqualDControl <= 3'b000;
+                                    PCtoRegD <= 1'b0;
+                                    RdD_31_Control <= 1'b0;
+                                    HilotoRegD <=1'b0;
+                                    J_Imi_ControlD <= 1'b0;
+                                    J_Rs_ControlD <= 1'b0;
+                               end
+                               `OP_LBU:begin
+                                    RegWriteD <= 1'b1;
+                                    MemtoRegD <= 1'b1;
+                                    MemWriteD <= 1'b0;
+                                    ALUControlD <= `ALU_ADD;
+                                    ALUSrcD <= 1'b1;
+                                    RegDstD <= 1'b0;
+                                    BranchD <= 1'b0;
+                                    SigExtendSignalD <= 2'b01;
+                                    ShiftSrcD <= 1'b0;
+                                    HiWriteD <= 1'b0;
+                                    LoWriteD <= 1'b0;
+                                    EqualDControl <= 3'b000;
+                                    PCtoRegD <= 1'b0;
+                                    RdD_31_Control <= 1'b0;
+                                    HilotoRegD <=1'b0;
+                                    J_Imi_ControlD <= 1'b0;
+                                    J_Rs_ControlD <= 1'b0;
+                              end
+                              `OP_LH:begin
+                                    RegWriteD <= 1'b1;
+                                    MemtoRegD <= 1'b1;
+                                    MemWriteD <= 1'b0;
+                                    ALUControlD <= `ALU_ADD;
+                                    ALUSrcD <= 1'b1;
+                                    RegDstD <= 1'b0;
+                                    BranchD <= 1'b0;
+                                    SigExtendSignalD <= 2'b01;
+                                    ShiftSrcD <= 1'b0;
+                                    HiWriteD <= 1'b0;
+                                    LoWriteD <= 1'b0;
+                                    EqualDControl <= 3'b001;
+                                    PCtoRegD <= 1'b0;
+                                    RdD_31_Control <= 1'b0;
+                                    HilotoRegD <=1'b0;
+                                    J_Imi_ControlD <= 1'b0;
+                                    J_Rs_ControlD <= 1'b0;
+                             end
+                             `OP_LHU:begin
+                                    RegWriteD <= 1'b1;
+                                    MemtoRegD <= 1'b1;
+                                    MemWriteD <= 1'b0;
+                                    ALUControlD <= `ALU_ADD;
+                                    ALUSrcD <= 1'b1;
+                                    RegDstD <= 1'b0;
+                                    BranchD <= 1'b0;
+                                    SigExtendSignalD <= 2'b01;
+                                    ShiftSrcD <= 1'b0;
+                                    HiWriteD <= 1'b0;
+                                    LoWriteD <= 1'b0;
+                                    EqualDControl <= 3'b000;
+                                    PCtoRegD <= 1'b0;
+                                    RdD_31_Control <= 1'b0;
+                                    HilotoRegD <=1'b0;
+                                    J_Imi_ControlD <= 1'b0;
+                                    J_Rs_ControlD <= 1'b0;
+                             end
+                             `OP_LW:begin
+                                    RegWriteD <= 1'b1;
+                                    MemtoRegD <= 1'b1;
+                                    MemWriteD <= 1'b0;
+                                    ALUControlD <= `ALU_ADD;
+                                    ALUSrcD <= 1'b1;
+                                    RegDstD <= 1'b0;
+                                    BranchD <= 1'b0;
+                                    SigExtendSignalD <= 2'b01;
+                                    ShiftSrcD <= 1'b0;
+                                    HiWriteD <= 1'b0;
+                                    LoWriteD <= 1'b0;
+                                    EqualDControl <= 3'b000;
+                                    PCtoRegD <= 1'b0;
+                                    RdD_31_Control <= 1'b0;
+                                    HilotoRegD <=1'b0;
+                                    J_Imi_ControlD <= 1'b0;
+                                    J_Rs_ControlD <= 1'b0;
+                            end
+                            `OP_SB:begin
+                                    RegWriteD <= 1'b0;
+                                    MemtoRegD <= 1'bZ;
+                                    MemWriteD <= 1'b1;
+                                    ALUControlD <= `ALU_ADD;
+                                    ALUSrcD <= 1'b1;
+                                    RegDstD <= 1'bX;
+                                    BranchD <= 1'b0;
+                                    SigExtendSignalD <= 2'b01;
+                                    ShiftSrcD <= 1'b0;
+                                    HiWriteD <= 1'b0;
+                                    LoWriteD <= 1'b0;
+                                    EqualDControl <= 3'b000;
+                                    PCtoRegD <= 1'b0;
+                                    RdD_31_Control <= 1'b0;
+                                    HilotoRegD <=1'b0;
+                                    J_Imi_ControlD <= 1'b0;
+                                    J_Rs_ControlD <= 1'b0;
+                            end
+                            `OP_SH:begin
+                                    RegWriteD <= 1'b0;
+                                    MemtoRegD <= 1'bZ;
+                                    MemWriteD <= 1'b1;
+                                    ALUControlD <= `ALU_ADD;
+                                    ALUSrcD <= 1'b1;
+                                    RegDstD <= 1'bX;
+                                    BranchD <= 1'b0;
+                                    SigExtendSignalD <= 2'b01;
+                                    ShiftSrcD <= 1'b0;
+                                    HiWriteD <= 1'b0;
+                                    LoWriteD <= 1'b0;
+                                    EqualDControl <= 3'b000;
+                                    PCtoRegD <= 1'b0;
+                                    RdD_31_Control <= 1'b0;
+                                    HilotoRegD <=1'b0;
+                                    J_Imi_ControlD <= 1'b0;
+                                    J_Rs_ControlD <= 1'b0;
+                            end
+                            `OP_SW:begin
+                                    RegWriteD <= 1'b0;
+                                    MemtoRegD <= 1'bZ;
+                                    MemWriteD <= 1'b1;
+                                    ALUControlD <= `ALU_ADD;
+                                    ALUSrcD <= 1'b1;
+                                    RegDstD <= 1'bX;
+                                    BranchD <= 1'b0;
+                                    SigExtendSignalD <= 2'b01;
+                                    ShiftSrcD <= 1'b0;
+                                    HiWriteD <= 1'b0;
+                                    LoWriteD <= 1'b0;
+                                    EqualDControl <= 3'b000;
+                                    PCtoRegD <= 1'b0;
+                                    RdD_31_Control <= 1'b0;
+                                    HilotoRegD <=1'b0;
+                                    J_Imi_ControlD <= 1'b0;
+                                    J_Rs_ControlD <= 1'b0;
+                            end
+ 
 				//********************hjw*************************//
                 default: begin
                     RegWriteD <= 1'b0;

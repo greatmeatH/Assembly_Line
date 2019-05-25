@@ -11,10 +11,12 @@ module defines();
 
 `define INSTRLENGTH 31:0
 `define DATALENGTH 31:0 
+`define BYTELENGTH 7:0
 `define ADDRLENGTH 31:0
 
 `define INSTR_MEM_NUM 131071
 `define DATA_MEM_NUM 131071
+`define DATA_MEM_NUM_LOG2 17
 
 `define INSTRSIZE 31:0
 `define PCSIZE 31:0
@@ -50,6 +52,15 @@ module defines();
 `define OP_ANDI 6'b001100  //hjw
 `define OP_XORI 6'b001110  //hjw
 `define OP_LUI 6'b001111  //hjw
+/*****  load and store instr  *******/
+`define OP_LB  6'b100000 
+`define OP_LBU 6'b100100
+`define OP_LH 6'b100001
+`define OP_LHU 6'b100101
+`define OP_LW 6'b100011
+`define OP_SB 6'b101000
+`define OP_SH 6'b101001
+`define OP_SW 6'b101011
 
 // opcode over
 

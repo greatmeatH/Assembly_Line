@@ -196,7 +196,7 @@ module mips(
     //decode 
     decode decode0(.clock(clock),.reset(reset),.InstrD(InstrD),.instrIndex(instrIndex),.rs(rs),.rt(rt),.rd(rd),.im(im),.opcode(opcode),.funccode(funccode));
     // control_unit
-    control_unit control_unit0(.clock(clock),.reset(reset),.opcode_in(opcode),.funccode_in(funccode),.rt(rt),.SigExtendSignalD(SigExtendSignalD),.RegWriteD(RegWriteD),.MemtoRegD(MemtoRegD),.MemWriteD(MemWriteD),.ALUControlD(ALUControlD),.ALUSrcD(ALUSrcD),.RegDstD(RegDstD),.BranchD(BranchD),.ShiftSrcD(ShiftSrcD),
+    control_unit control_unit0(.clock(clock),.reset(reset),.opcode_in(opcode),.opcode_out(opcode),.funccode_in(funccode),.rt(rt),.SigExtendSignalD(SigExtendSignalD),.RegWriteD(RegWriteD),.MemtoRegD(MemtoRegD),.MemWriteD(MemWriteD),.ALUControlD(ALUControlD),.ALUSrcD(ALUSrcD),.RegDstD(RegDstD),.BranchD(BranchD),.ShiftSrcD(ShiftSrcD),
     .EqualDControl(EqualDControl),.PCtoRegD(PCtoRegD),.RdD_31_Control(RdD_31_Control),.J_Imi_ControlD(J_Imi_ControlD),.J_Rs_ControlD(J_Rs_ControlD),.HiWriteD(HiWriteD),.LoWriteD(LoWriteD),.HiReadD(HiReadD),.LoReadD(LoReadD),.HilotoRegD(HilotoRegD));
     // getRdD
     getRdD getRdD0(.clock(clock),.reset(reset),.RdD_31_Control(RdD_31_Control),.rd(rd),.RdD(RdD));
@@ -223,9 +223,9 @@ module mips(
     
     // decode_exe
     decode_exe decode_exe0(.clock(clock),.reset(reset),.RegWriteD(RegWriteD),.MemtoRegD(MemtoRegD),.MemWriteD(MemWriteD),.ALUControlD(ALUControlD),.ALUSrcD(ALUSrcD),.RegDstD(RegDstD),.HiWriteD(HiWriteD),.LoWriteD(LoWriteD),
-    .HiReadD(HiReadD),.LoReadD(LoReadD),.HilotoRegD(HilotoRegD),.ShiftSrcD(ShiftSrcD),.PCtoRegD(PCtoRegD),.FlushE(FlushE),.RD1D(RD1_out),.RD2D(RD2_out),.RsD(rs),.RtD(rt),.RdD(RdD),.SignImmD(SignImmD),.PCPlus8D(PCPlus8D),
+    .HiReadD(HiReadD),.LoReadD(LoReadD),.HilotoRegD(HilotoRegD),.opcode_out(opcode),.ShiftSrcD(ShiftSrcD),.PCtoRegD(PCtoRegD),.FlushE(FlushE),.RD1D(RD1_out),.RD2D(RD2_out),.RsD(rs),.RtD(rt),.RdD(RdD),.SignImmD(SignImmD),.PCPlus8D(PCPlus8D),
     .RegWriteE(RegWriteE),.MemtoRegE(MemtoRegE),.MemWriteE(MemWriteE),.ALUControlE(ALUControlE),.ALUSrcE(ALUSrcE),.RegDstE(RegDstE),.ShiftSrcE(ShiftSrcE),.HiWriteE(HiWriteE),.LoWriteE(LoWriteE),
-    .HiReadE(HiReadE),.LoReadE(LoReadE),.HilotoRegE(HilotoRegE),.PCtoRegE(PCtoRegE),.PCPlus8E(PCPlus8E),.RD1E(RD1E),.RD2E(RD2E),.RsE(RsE),.RtE(RtE),.RdE(RdE),.SignImmE(SignImmE));
+    .HiReadE(HiReadE),.LoReadE(LoReadE),.HilotoRegE(HilotoRegE),.opcodeE(opcode),.PCtoRegE(PCtoRegE),.PCPlus8E(PCPlus8E),.RD1E(RD1E),.RD2E(RD2E),.RsE(RsE),.RtE(RtE),.RdE(RdE),.SignImmE(SignImmE));
     
     /* below is part3 : exe*/
     // get_WriteRegE
@@ -256,15 +256,15 @@ module mips(
     /* exe part is over*/
 
     // exe_accessMem
-    exe_accessMem exe_accessMem0(.clock(clock),.reset(reset),.RegWriteE(RegWriteE),.MemtoRegE(MemtoRegE),.MemWriteE(MemWriteE),.HiWriteE(HiWriteE),.LoWriteE(LoWriteE),.HiReadE(HiReadE),.LoReadE(LoReadE),.HilotoRegE(HilotoRegE),
+    exe_accessMem exe_accessMem0(.clock(clock),.reset(reset),.RegWriteE(RegWriteE),.MemtoRegE(MemtoRegE),.MemWriteE(MemWriteE),.HiWriteE(HiWriteE),.LoWriteE(LoWriteE),.HiReadE(HiReadE),.LoReadE(LoReadE),.HilotoRegE(HilotoRegE),.opcodeE(opcode),
     .PCtoRegE(PCtoRegE),.ALUOutE(ALUOutE),.WriteDataE(WriteDataE),.WriteRegE(WriteRegE),
     .write_hi_dataE(write_hi_dataE),.write_lo_dataE(write_lo_dataE),.PCPlus8E(PCPlus8E),.RegWriteM(RegWriteM),.MemtoRegM(MemtoRegM),.MemWriteM(MemWriteM),.ALUOutM(ALUOutM),.WriteDataM(WriteDataM),.WriteRegM(WriteRegM),
-    .HiWriteM(HiWriteM),.LoWriteM(LoWriteM),.HiReadM(HiReadM),.LoReadM(LoReadM),.HilotoRegM(HilotoRegM),.PCtoRegM(PCtoRegM),.PCPlus8M(PCPlus8M),.write_hi_dataM(write_hi_dataM),.write_lo_dataM(write_lo_dataM));
+    .HiWriteM(HiWriteM),.LoWriteM(LoWriteM),.HiReadM(HiReadM),.LoReadM(LoReadM),.HilotoRegM(HilotoRegM),.opcodeM(opcode),.PCtoRegM(PCtoRegM),.PCPlus8M(PCPlus8M),.write_hi_dataM(write_hi_dataM),.write_lo_dataM(write_lo_dataM));
     
     /* below is part4 : access memory*/
    
     // access_mem
-    access_mem access_mem0(.clock(clock),.reset(reset),.MemWriteM(MemWriteM),.addr(ALUOutM),.writeData(WriteDataM),.readData(ReadDataM));
+    access_mem access_mem0(.clock(clock),.reset(reset),.MemWriteM(MemWriteM),.opcodeM(opcode),.addr(ALUOutM),.writeData(WriteDataM),.readData(ReadDataM));
      // hilo   *******************
     hilo hilo0(.clock(clock),.reset(reset),.writeHi(HiWriteM),.writeLo(LoWriteM),.readHi(HiReadM),.readLo(LoReadM),.hi_data_in(write_hi_dataM),.lo_data_in(write_lo_dataM),.hilo_data_out(hilo_data_out));
      // M_E_databack
