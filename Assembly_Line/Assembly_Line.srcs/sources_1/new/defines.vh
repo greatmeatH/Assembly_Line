@@ -4,8 +4,8 @@ module defines();
 `define WRITEABLE 1'b1
 `define UNWRITEABLE 1'b0
 
-`define RESETABLE 1'b1
-`define RESETUNABLE 1'b0
+`define RESETABLE 1'b0
+`define RESETUNABLE 1'b1
 
 `define ZEROWORD 32'h00000000
 

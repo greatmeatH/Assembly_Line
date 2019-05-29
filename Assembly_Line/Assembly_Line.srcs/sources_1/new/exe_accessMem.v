@@ -33,7 +33,7 @@ module exe_accessMem(
     input HiReadE,
     input LoReadE,
     input HilotoRegE,
-    input wire[`OP_SIZE] opcodeE,//for mem
+    
     
     input PCtoRegE,         // ** added for PC
     
@@ -47,6 +47,7 @@ module exe_accessMem(
     input [`DATALENGTH]write_lo_dataE,
     
     input [`PCSIZE] PCPlus8E, // ** added for PC
+    input [`PCSIZE] PCE,    //added for debug
     
     // output 
     output reg RegWriteM,
@@ -62,10 +63,11 @@ module exe_accessMem(
     output reg HiReadM,
     output reg LoReadM,
     output reg HilotoRegM,
-    output reg[`OP_SIZE] opcodeM,//for mem
+ 
      
     output reg PCtoRegM,        // ** added for PC
     output reg [`PCSIZE] PCPlus8M,// ** added for PC
+    output reg [`PCSIZE] PCM,   //added for debug
     
     
     output reg[`DATALENGTH] write_hi_dataM,
@@ -89,6 +91,7 @@ module exe_accessMem(
             write_lo_dataM <= `ZEROWORD;
             PCtoRegM <= 1'b0;
             PCPlus8M <= `ZEROWORD;
+            PCM<=`ZEROWORD;
         end
         else begin
             RegWriteM <= RegWriteE;
@@ -107,7 +110,8 @@ module exe_accessMem(
             write_lo_dataM <= write_lo_dataE;
             PCtoRegM <= PCtoRegE;
             PCPlus8M <= PCPlus8E;
-            opcodeM <= opcodeE; //for access_mem
+            PCM<=PCE;
+    
         end
     end
 endmodule

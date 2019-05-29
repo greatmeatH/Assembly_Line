@@ -37,7 +37,7 @@ module decode_exe(
     input LoReadD,
     input HilotoRegD,
 	input ShiftSrcD,	//hjw
-	input wire[`OP_SIZE] opcode_out,//for assess_mem
+	
     
     input PCtoRegD,             //  ** added for PC
     
@@ -52,6 +52,7 @@ module decode_exe(
     input [`DATALENGTH]SignImmD,
     
     input [`PCSIZE] PCPlus8D,          // **added for PC
+    input [`PCSIZE] PCD,    //added for debug
     
     // output
     output reg RegWriteE,
@@ -66,7 +67,7 @@ module decode_exe(
     output reg HiReadE,
     output reg LoReadE,
     output reg HilotoRegE,
-    output reg[`OP_SIZE] opcodeE,//for access_mem
+   
     
     output reg PCtoRegE,
     output reg [`PCSIZE] PCPlus8E,
@@ -77,7 +78,8 @@ module decode_exe(
     output reg [`R_SIZE]RtE,
     output reg [`R_SIZE]RdE,
     
-    output reg [`DATALENGTH]SignImmE
+    output reg [`DATALENGTH]SignImmE,
+    output reg [`PCSIZE] PCE    //added for debug
     );
     
     always@(posedge clock)begin
@@ -102,6 +104,7 @@ module decode_exe(
             HilotoRegE <= 1'b0;
             PCtoRegE <= 1'b0;
             PCPlus8E <= `ZEROWORD;
+            PCE<=`ZEROWORD;
         end
         else begin
             RegWriteE <= RegWriteD;
@@ -124,7 +127,8 @@ module decode_exe(
             HilotoRegE <= HilotoRegD;
             PCtoRegE <= PCtoRegD;
             PCPlus8E <= PCPlus8D;
-            opcodeE <= opcode_out; //for access_mem
+            PCE<=PCD;
+     
         end
     end
 endmodule

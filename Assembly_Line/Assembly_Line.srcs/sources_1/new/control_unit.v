@@ -20,7 +20,7 @@ module control_unit(
     output reg RegDstD,
     output reg BranchD,
 	output reg ShiftSrcD,
-	output wire[`OP_SIZE] opcode_out,//for access_mem
+
     
     output reg[`CONTROL_EQUALD_SIZE] EqualDControl,     // added ** for fenzhi
     output reg PCtoRegD,                             // if PC needed to write to $31
@@ -40,7 +40,7 @@ module control_unit(
     
     // cal ALUControlD
 
-    assign opcode_out = opcode_in;
+
     
     always @ (*) begin
         if(reset == 1'b0) begin

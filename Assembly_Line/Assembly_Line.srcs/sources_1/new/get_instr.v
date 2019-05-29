@@ -7,21 +7,30 @@ module get_instr(
     input wire reset, 
     
   //  input 
-    input wire[`PCSIZE] instr_addr,       
-    
-    output reg[`INSTRSIZE] InstrI   // instrcment
+    input wire[`PCSIZE] instr_addr,
+    input wire[`PCSIZE] instr_from_ram,
+      
+    output reg[`INSTRSIZE] InstrI,   // instrcment
+    output reg inst_sram_en,
+    output reg [3:0] inst_sram_wen,
+    output reg [`ADDRLENGTH] inst_sram_addr,
+    output reg [`DATALENGTH] inst_sram_wdata
     
     );
-    
-    reg[`INSTRLENGTH]  instr_mem[0:`INSTR_MEM_NUM-1];
-    initial $readmemh ("/home/hejunwen/Assembly_Line/Assembly_Line/Assembly_Line.data/code.txt",instr_mem);
-    
-    always @ (*) begin
-        if (reset == 1'b1) begin
-            InstrI <= `ZEROWORD;
-        end else begin
-            InstrI <= instr_mem[instr_addr[17:2]];    // because pc + 4, the lowest two bits are 00
+        
+        always @ (*) begin
+            if (reset == `RESETABLE) begin
+                inst_sram_en<='b0;
+                inst_sram_wen<='b0000;
+                InstrI <= `ZEROWORD;
+            end else begin
+                inst_sram_en<='b1;
+                inst_sram_wen<='b0000;
+                inst_sram_addr<=instr_addr;
+                inst_sram_wdata<=0;
+                InstrI <= (instr_from_ram[instr_addr[17:2]] & 32'h000000FF) << 24 | (instr_from_ram[instr_addr[17:2]] & 32'h0000FF00) << 8 | 
+                           (instr_from_ram[instr_addr[17:2]] & 32'h00FF0000) >> 8 | (instr_from_ram[instr_addr[17:2]] & 32'hFF000000) >> 24;    // because pc + 4, the lowest two bits are 00
+            end
         end
-    end
-    
-endmodule
+        
+    endmodule
