@@ -237,7 +237,7 @@ void sensitize(char *dp)
 
 void simulate(char *dp)
 {
-	iki_schedule_processes_at_time_zero(dp, "xsim.dir/testbench_behav/xsim.reloc");
+		iki_schedule_processes_at_time_zero(dp, "xsim.dir/testbench_behav/xsim.reloc");
 	// Initialize Verilog nets in mixed simulation, for the cases when the value at time 0 should be propagated from the mixed language Vhdl net
 	iki_execute_processes();
 
@@ -255,8 +255,8 @@ void simulate(char *);
 extern SYSTEMCLIB_IMP_DLLSPEC void local_register_implicit_channel(int, char*);
 extern void implicit_HDL_SCinstatiate();
 
-extern int xsim_argc_copy ;
-extern char** xsim_argv_copy ;
+extern SYSTEMCLIB_IMP_DLLSPEC int xsim_argc_copy ;
+extern SYSTEMCLIB_IMP_DLLSPEC char** xsim_argv_copy ;
 
 int main(int argc, char **argv)
 {

@@ -53,6 +53,7 @@ module mycpu(
     
     wire StallD;
     wire PCSrcD;
+    wire [`PCSIZE] PCD;
     wire [`INSTRSIZE]InstrD;
     wire [`PCSIZE] PCPlus4D;
     wire [`PCSIZE] PCPlus8D;
@@ -211,7 +212,7 @@ module mycpu(
     /* get instructment part is over */
     
     // instr_decode
-    instr_decode instr_decode0(.clock(clock),.reset(reset),.StallD(StallD),.PCSrcD(PCSrcD),.InstrI(InstrI),.PCPlus4F(PCPlus4F),.InstrD(InstrD),.PCPlus4D(PCPlus4D));
+    instr_decode instr_decode0(.clock(clock),.reset(reset),.StallD(StallD),.PCSrcD(PCSrcD),.InstrI(InstrI),.PCPlus4F(PCPlus4F),.PCI(PCF),.InstrD(InstrD),.PCPlus4D(PCPlus4D),.PCD(PCD));
     
     /* below is part2 : decode*/
     //decode 
@@ -244,7 +245,7 @@ module mycpu(
     
     // decode_exe
     decode_exe decode_exe0(.clock(clock),.reset(reset),.RegWriteD(RegWriteD),.MemtoRegD(MemtoRegD),.MemWriteD(MemWriteD),.ALUControlD(ALUControlD),.ALUSrcD(ALUSrcD),.RegDstD(RegDstD),.HiWriteD(HiWriteD),.LoWriteD(LoWriteD),
-    .HiReadD(HiReadD),.LoReadD(LoReadD),.HilotoRegD(HilotoRegD),.ShiftSrcD(ShiftSrcD),.PCtoRegD(PCtoRegD),.FlushE(FlushE),.RD1D(RD1_out),.RD2D(RD2_out),.RsD(rs),.RtD(rt),.RdD(RdD),.SignImmD(SignImmD),.PCPlus8D(PCPlus8D),.PCD(InstrD),
+    .HiReadD(HiReadD),.LoReadD(LoReadD),.HilotoRegD(HilotoRegD),.ShiftSrcD(ShiftSrcD),.PCtoRegD(PCtoRegD),.FlushE(FlushE),.RD1D(RD1_out),.RD2D(RD2_out),.RsD(rs),.RtD(rt),.RdD(RdD),.SignImmD(SignImmD),.PCPlus8D(PCPlus8D),.PCD(PCD),
     .RegWriteE(RegWriteE),.MemtoRegE(MemtoRegE),.MemWriteE(MemWriteE),.ALUControlE(ALUControlE),.ALUSrcE(ALUSrcE),.RegDstE(RegDstE),.ShiftSrcE(ShiftSrcE),.HiWriteE(HiWriteE),.LoWriteE(LoWriteE),
     .HiReadE(HiReadE),.LoReadE(LoReadE),.HilotoRegE(HilotoRegE),.PCtoRegE(PCtoRegE),.PCPlus8E(PCPlus8E),.RD1E(RD1E),.RD2E(RD2E),.RsE(RsE),.RtE(RtE),.RdE(RdE),.SignImmE(SignImmE),.PCE(PCE));
     
